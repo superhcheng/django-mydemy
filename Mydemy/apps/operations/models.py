@@ -6,7 +6,6 @@ from django.db import models
 from users.models import UserProfile
 from courses.models import Course
 
-# Create your models here.
 
 class UserQuestion(models.Model):
     name = models.CharField(max_length=50, verbose_name='Username')
@@ -18,6 +17,7 @@ class UserQuestion(models.Model):
         verbose_name = 'User Question'
         verbose_name_plural = 'User Questions'
 
+
 class CourseComment(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, verbose_name='User')
     course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='Course')
@@ -27,6 +27,7 @@ class CourseComment(models.Model):
     class Meta:
         verbose_name = 'Course Comment'
         verbose_name_plural = 'Course Comments'
+
 
 class UserFavorite(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, verbose_name='User')
@@ -38,6 +39,7 @@ class UserFavorite(models.Model):
         verbose_name = 'User Favorite'
         verbose_name_plural = 'User Favorite'
 
+
 class UserMessage(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, verbose_name='User')
     message = models.CharField(max_length=1500, verbose_name='Message')
@@ -47,6 +49,7 @@ class UserMessage(models.Model):
     class Meta:
         verbose_name = 'User Message'
         verbose_name_plural = 'User Messages'
+
 
 class UserCourse(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, verbose_name='User')
