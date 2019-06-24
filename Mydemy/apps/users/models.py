@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 from datetime import datetime
 
+from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -18,15 +19,17 @@ class UserProfile(AbstractUser):
         verbose_name = 'User Information'
         verbose_name_plural = verbose_name
 
+
 class UserProfileVerification(models.Model):
     code = models.CharField(max_length=50, verbose_name='User Profile Verification Code')
     email = models.EmailField(max_length=100, verbose_name='E-mail')
     type = models.CharField(max_length=20, choices=(('register', 'Register'), ('reset','Reset Password')), verbose_name='Verification Type')
-    verify_time = models.DateTimeField(default=datetime.now, verbose_name='Verification Time')
+    verify_time = models.DateTimeField(default=timezone.now, verbose_name='Verification Time')
 
     class Meta:
         verbose_name = 'User Profile Verification'
         verbose_name_plural = 'User Profile Verifications'
+
 
 class Banner(models.Model):
     title = models.CharField(max_length=100, verbose_name='Banner Title')

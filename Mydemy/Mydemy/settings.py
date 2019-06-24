@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'operations',
     'xadmin',
     'crispy_forms',
+    'captcha',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -140,3 +141,10 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static/'),
 ]
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp-mail.outlook.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = '??????@outlook.com'
+EMAIL_HOST_PASSWORD = '??????'

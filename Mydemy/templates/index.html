@@ -40,7 +40,6 @@
                     <a href="usercenter-message.html">
                         <div class="msg-num">20</div>
                     </a>
-
                 </div>
             </div>
             {% else %}
@@ -49,8 +48,8 @@
 					<div class="fl">
                         <p>联系方式：<b>3333333333</b></p>
                     </div>
-                    <a style="color:white" class="fr registerbtn" href="register.html">注册</a>
-                    <a style="color:white" class="fr loginbtn" href="/login/">登录</a>
+                    <a style="color:white" class="fr registerbtn" href="{% url 'register' %}">Register</a>
+                    <a style="color:white" class="fr loginbtn" href="{% url 'login' %}">Login</a>
 				</div>
 			</div>
             {% endif %}
@@ -91,11 +90,9 @@
 					</div>
 				</div>
 			</nav>
-
 			</div>
     </header>
 </section>
-
 <!--banner start-->
 		<div class="banner">
 			<div class="wp">
