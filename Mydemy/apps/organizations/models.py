@@ -23,6 +23,8 @@ class CourseOrg(models.Model):
     category = models.CharField(max_length=30, default='college', choices=(('college', 'College'), ('institution', 'Institution'), ('individual', 'Individual')), verbose_name='Organization Category')
     fav_count = models.IntegerField(default=0, verbose_name='Favourite Count')
     click_count = models.IntegerField(default=0, verbose_name='Click Count')
+    student_count = models.IntegerField(default=0, verbose_name='Student Count')
+    course_count = models.IntegerField(default=0, verbose_name='Course Count')
     image = models.ImageField(upload_to='organizations/org/%Y/%m', verbose_name='Organization Profile Picture')
     address = models.CharField(max_length=200, verbose_name='Organization Address')
     city = models.ForeignKey(City, on_delete=models.CASCADE, verbose_name='Organization based City')

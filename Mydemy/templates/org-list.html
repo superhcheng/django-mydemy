@@ -22,37 +22,47 @@
             <div class="listoptions">
                 <ul>
                     <li>
-                        <h2>课程类别</h2>
+                        <h2>Provider Type</h2>
                         <div class="cont">
-                            <a href="?order_by="><span class="active">全部</span></a>
-                                <a href="?price=1&district="><span >收费课程</span></a>
-                                <a href="?price=2&district="><span >免费课程</span></a>
-                                <a href="?price=3&district="><span >培训课程</span></a>
+                            <a href="?{% ifnotequal city_filter '' %}city_filter={{ city_filter }}{% endifnotequal %}">
+                                <span class="{% ifequal provider_type '' %} active2 {% endifequal %}">All</span>
+                            </a>
+                            <a href="?provider_type=college&city_filter={{ city_filter }}">
+                                <span class="{% if provider_type == 'college' %} active2 {% endif %}">College and University</span>
+                            </a>
+                            <a href="?provider_type=institution&city_filter={{ city_filter }}">
+                                <span class="{% if provider_type == 'institution' %} active2 {% endif %}">Learning Institute</span>
+                            </a>
+                            <a href="?provider_type=individual&city_filter={{ city_filter }}">
+                                <span class="{% if provider_type == 'individual' %} active2 {% endif %}">Individual Instructor(s)</span>
+                            </a>
                         </div>
                     </li>
                     <li>
-                        <h2>所在地区</h2>
-                        <div class="more">更多</div>
+                        <h2>Location</h2>
+                        <div class="more">More</div>
                         <div class="cont">
-                            <a href="?order_by=&price=all"><span class="active">All</span></a>
+                            <a href="?provider_type={{ provider_type }}"><span class="{% ifequal city_filter city.id|stringformat:'i' %} active2 {% endifequal %}">All</span></a>
                                 {% for city in all_cities %}
-                                    <a href="?district=1&price=all"><span >{{ city.name }}</span></a>
+                                    <a href="?city_filter={{ city.id }}">
+                                        <span class="{% ifequal city_filter city.id|stringformat:'i' %} active2 {% endifequal %}">{{ city.name }}</span>
+                                    </a>
                                 {% endfor %}
                         </div>
                     </li>
                 </ul>
             </div>
-            <div class="all">Total<span class="key">{{ org_count }}</span></div>
+            <div class="all">Total <span class="key">{{ org_count }}</span></div>
             <div class="butler_list company list">
                 <div class="layout">
                 <div class="head">
                     <ul class="tab_header">
-                        <li class="active"><a href="?district=&price=all&order_by=time">全部</a> </li>
-                        <li ><a href="?district=&price=all&order_by=hot">学习人数 &#8595;</a></li>
-                        <li ><a href="?district=&price=all&order_by=most_contract">课程数 &#8595;</a></li>
+                        <li class="{% ifequal org_list_order_by '' %} active {% endifequal %}"><a href="?city_filter={{ city_filter }}&provider_type={{ provider_type }}">All</a> </li>
+                        <li class="{% ifequal org_list_order_by 'student' %} active {% endifequal %}"><a href="?org_list_order_by=student&city_filter={{ city_filter }}&provider_type={{ provider_type }}">Total Students &#8595;</a></li>
+                        <li class="{% ifequal org_list_order_by 'course' %} active {% endifequal %}"><a href="?org_list_order_by=course&city_filter={{ city_filter }}&provider_type={{ provider_type }}">Total Courses &#8595;</a></li>
                     </ul>
                 </div>
-                    {% for org in all_orgs %}
+                    {% for org in all_orgs.object_list %}
                     <dl class="des difdes">
                         <dt>
                             <a href="org-detail-homepage.html">
@@ -64,8 +74,8 @@
                                  <a href="org-detail-homepage.html">
                                      <h1>{{ org.name }}</h1>
                                      <div class="pic fl">
-                                             <img src="{% static 'images/authentication.png' %}"/>
-                                             <img src="{% static 'images/gold.png' %}"/>
+                                         <img src="{% static 'images/authentication.png' %}"/>
+                                         <img src="{% static 'images/gold.png' %}"/>
                                      </div>
                                  </a>
                             </div>
@@ -73,8 +83,8 @@
                                 <li class="first"><p class="pic9">课程数：<span>???</span></p><p class="c7">学习人数：<span>???</span></p></li>
                                 <li class="c8" style="padding-left:18px;">{{ org.address }}</li>
                                 <li class="pic10" style="padding-left:18px;">Top pick(s)：
-                                        <a href="/diary/19/">???</a>
-                                        <a href="/diary/16/">???</a>
+                                    <a href="/diary/19/">???</a>
+                                    <a href="/diary/16/">???</a>
                                 </li>
                             </ul>
                         </dd>
@@ -83,12 +93,33 @@
                     {% endfor %}
             </div>
                 <div class="pageturn">
-                <ul class="pagelist">
-                    <li class="active"><a href="?page=1">1</a></li>
-                    <li><a href="?page=2" class="page">2</a></li>
-                    <li class="long"><a href="?page=2">下一页</a></li>
-                </ul>
-            </div>
+                    <ul class="pagelist">
+                        {% if all_orgs.has_previous %}
+                            <li class="long">
+                                <a href="?{{ all_orgs.previous_page_number.querystring }}">Prev
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% for page in all_orgs.pages %}
+                            {% if page %}
+                                {% ifequal page all_orgs.number %}
+                                    <li class="active"><a>{{ page }}</a></li>
+                                {% else %}
+                                    <li class="page">
+                                        <a href="?{{ page.querystring }}">{{ page }}
+                                        </a>
+                                    </li>
+                                {% endifequal %}
+                            {% endif %}
+                        {% endfor %}
+                        {% if all_orgs.has_next %}
+                            <li class="long">
+                                <a href="?{{ all_orgs.next_page_number.querystring }}">Next
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
             </div>
         </div>
         <div class="right companyright">
@@ -110,71 +141,17 @@
                     <input class="btn" type="text" id="jsStayBtn" value="立即咨询 >" />
                 </form>
             </div>
-        <div class="right companyrank layout">
-			<div class="head">授课机构排名</div>
-                <dl class="des">
-                    <dt class="num fl">1</dt>
-                    <dd>
-                        <a href="/company/2/"><h1>慕课网</h1></a>
-                        <p>北京市西直门1002号</p>
-                    </dd>
-                </dl>
-
-                <dl class="des">
-                    <dt class="num fl">1</dt>
-                    <dd>
-                        <a href="/company/2/"><h1>慕课网慕课网慕课网慕课网</h1></a>
-                        <p>北京市西直门1002号</p>
-                    </dd>
-                </dl>
-
-                <dl class="des">
-                    <dt class="num fl">1</dt>
-                    <dd>
-                        <a href="/company/2/"><h1>慕课网慕课网慕课网慕课网慕课网慕课网慕课网慕课网慕课网</h1></a>
-                        <p>北京市西直门1002号</p>
-                    </dd>
-                </dl>
-
-                <dl class="des">
-                    <dt class="num fl">1</dt>
-                    <dd>
-                        <a href="/company/2/"><h1>慕课网慕课网慕课网慕课网慕课网慕课网慕课网慕课网慕课网</h1></a>
-                        <p>北京市西直门1002号</p>
-                    </dd>
-                </dl>
-
-                <dl class="des">
-                    <dt class="num fl">1</dt>
-                    <dd>
-                        <a href="/company/2/"><h1>慕课网慕课网慕课网慕课网慕课网慕课网慕课网慕课网慕课网</h1></a>
-                        <p>北京市西直门1002号</p>
-                    </dd>
-                </dl>
-
-                <dl class="des">
-                    <dt class="num fl">1</dt>
-                    <dd>
-                        <a href="/company/2/"><h1>慕课网慕课网慕课网慕课网慕课网慕课网慕课网慕课网慕课网</h1></a>
-                        <p>北京市西直门1002号</p>
-                    </dd>
-                </dl>
-
-                <dl class="des">
-                    <dt class="num fl">1</dt>
-                    <dd>
-                        <a href="/company/2/"><h1>慕课网慕课网慕课网慕课网慕课网慕课网慕课网慕课网慕课网</h1></a>
-                        <p>北京市西直门1002号</p>
-                    </dd>
-                </dl>
-
-                <dl class="des">
-                    <dt class="num fl">1</dt>
-                    <dd>
-                        <a href="/company/2/"><h1>慕课网慕课网慕课网慕课网慕课网慕课网慕课网慕课网慕课网</h1></a>
-                        <p>北京市西直门1002号</p>
-                    </dd>
-                </dl>
-		</div>
+            <div class="right companyrank layout">
+                <div class="head">Top List</div>
+                    {% for org in top_orgs %}
+                        <dl class="des">
+                            <dt class="num fl">{{ forloop.counter }}</dt>
+                            <dd>
+                                <a href="/company/2/"><h1>{{ org.name }}</h1></a>
+                                <p>{{ org.address }}</p>
+                            </dd>
+                        </dl>
+                    {% endfor %}
+            </div>
     </div>
 {% endblock %}
