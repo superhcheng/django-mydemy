@@ -14,9 +14,13 @@ class City(models.Model):
         verbose_name = 'City'
         verbose_name_plural = 'Cities'
 
+    def __unicode__(self):
+        return self.name
+
 class CourseOrg(models.Model):
     name = models.CharField(max_length=50, verbose_name='Organization Name')
     desc = models.CharField(max_length=200, verbose_name='Organization Description')
+    category = models.CharField(max_length=30, default='college', choices=(('college', 'College'), ('institution', 'Institution'), ('individual', 'Individual')), verbose_name='Organization Category')
     fav_count = models.IntegerField(default=0, verbose_name='Favourite Count')
     click_count = models.IntegerField(default=0, verbose_name='Click Count')
     image = models.ImageField(upload_to='organizations/org/%Y/%m', verbose_name='Organization Profile Picture')
@@ -27,6 +31,10 @@ class CourseOrg(models.Model):
     class Meta:
         verbose_name = 'Organization'
         verbose_name_plural = 'Organizations'
+
+
+    def __unicode__(self):
+        return self.name
 
 class Instructor(models.Model):
     org = models.ForeignKey(CourseOrg, on_delete=models.CASCADE, verbose_name='Organization')

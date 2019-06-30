@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 import os
 import sys
 
+from .credentials import DB, MAIL
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
@@ -39,13 +41,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'xadmin',
+    'crispy_forms',
+    'captcha',
+    'pure_pagination',
     'users',
     'courses',
     'organizations',
     'operations',
-    'xadmin',
-    'crispy_forms',
-    'captcha',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -71,6 +74,7 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+                'django.template.context_processors.media',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -87,10 +91,10 @@ WSGI_APPLICATION = 'Mydemy.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
+        'HOST': DB['HOST'],
         'NAME': 'mydemy',
-        'USER': '???',
-        'PASSWORD': '???',
-        'HOST': '???.42.92.118'
+        'USER': DB['USER'],
+        'PASSWORD': DB['PASS'],
     }
 }
 
@@ -142,9 +146,21 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static/'),
 ]
 
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp-mail.outlook.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = '??????@outlook.com'
-EMAIL_HOST_PASSWORD = '??????'
+EMAIL_HOST_USER = MAIL['USER']
+EMAIL_HOST_PASSWORD = MAIL['PASS']
+
+
+PAGINATION_SETTINGS = {
+    'PAGE_RANGE_DISPLAYED': 3,
+    'MARGIN_PAGES_DISPLAYED': 2,
+    'SHOW_FIRST_PAGE_WHEN_INVALID': True,
+}

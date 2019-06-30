@@ -13,14 +13,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Mydemy/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="393">
-              <caret line="91" column="26" lean-forward="true" selection-start-line="91" selection-start-column="26" selection-end-line="91" selection-end-column="26" />
+            <state relative-caret-position="338">
+              <caret line="161" column="23" lean-forward="true" selection-start-line="161" selection-start-column="23" selection-end-line="161" selection-end-column="23" />
               <folding>
                 <element signature="e#307#316#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Mydemy/credentials.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="189">
+              <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
             </state>
           </provider>
         </entry>
@@ -31,15 +40,13 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Setup Script" />
-        <option value="Python Script" />
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>AUTHENTICATION_BACKENDS</find>
-      <find>action</find>
       <find>form</find>
       <find>admin</find>
       <find>login/</find>
@@ -59,7 +66,6 @@
       <find>register</find>
       <find>register_form</find>
       <find>back to</find>
-      <find>url</find>
       <find>forget</find>
       <find>forgetpwd</find>
       <find>send_register_email</find>
@@ -68,10 +74,15 @@
       <find>send</find>
       <find>ForgetPwdView</find>
       <find>ResetPwdView</find>
+      <find>../</find>
+      <find>{%  %}</find>
+      <find>{% static '' %}</find>
     </findStrings>
     <replaceStrings>
       <replace>static/</replace>
       <replace>/static/</replace>
+      <replace>{%  %}</replace>
+      <replace>{% static '' %}</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -110,7 +121,6 @@
         <option value="$PROJECT_DIR$/templates/verification_failed.html" />
         <option value="$PROJECT_DIR$/templates/login.html" />
         <option value="$PROJECT_DIR$/templates/register.html" />
-        <option value="$PROJECT_DIR$/Mydemy/urls.py" />
         <option value="$PROJECT_DIR$/templates/forgetpwd_reset_fail.html" />
         <option value="$PROJECT_DIR$/apps/users/forms.py" />
         <option value="$PROJECT_DIR$/templates/forgetpwd.html" />
@@ -118,15 +128,21 @@
         <option value="$PROJECT_DIR$/templates/forgetpwd_notification.html" />
         <option value="$PROJECT_DIR$/templates/forgetpwd_reset.html" />
         <option value="$PROJECT_DIR$/apps/users/views.py" />
+        <option value="$PROJECT_DIR$/templates/base.html" />
+        <option value="$PROJECT_DIR$/apps/organizations/models.py" />
+        <option value="$PROJECT_DIR$/templates/org-list.html" />
+        <option value="$PROJECT_DIR$/Mydemy/urls.py" />
+        <option value="$PROJECT_DIR$/apps/organizations/views.py" />
         <option value="$PROJECT_DIR$/Mydemy/settings.py" />
+        <option value="$PROJECT_DIR$/Mydemy/credentials.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="294" />
-    <option name="y" value="116" />
-    <option name="width" value="1389" />
-    <option name="height" value="1046" />
+    <option name="x" value="165" />
+    <option name="y" value="62" />
+    <option name="width" value="1611" />
+    <option name="height" value="867" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -157,18 +173,18 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/templates" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/media/organizations/org/2019/06" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="fileTemplates" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\ThinkPad_Cheng\Desktop\GitCheng\myDemy\Mydemy\media\organizations\org\2019\06" />
       <recent name="C:\Users\ThinkPad_Cheng\Desktop\GitCheng\myDemy\Mydemy\templates" />
       <recent name="C:\Users\ThinkPad_Cheng\Desktop\GitCheng\myDemy\Mydemy\static\images" />
       <recent name="C:\Users\ThinkPad_Cheng\Desktop\GitCheng\myDemy\Mydemy\static\js" />
       <recent name="C:\Users\ThinkPad_Cheng\Desktop\GitCheng\myDemy\Mydemy\static\css" />
-      <recent name="C:\Users\ThinkPad_Cheng\Desktop\GitCheng\myDemy\Mydemy\plugins" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\ThinkPad_Cheng\Desktop\GitCheng\myDemy\Mydemy\templates" />
@@ -231,23 +247,25 @@
       <workItem from="1560478344276" duration="4402000" />
       <workItem from="1560611054557" duration="13724000" />
       <workItem from="1560736755864" duration="5465000" />
-      <workItem from="1561242781653" duration="25177000" />
+      <workItem from="1561242781653" duration="26373000" />
+      <workItem from="1561819797632" duration="6125000" />
+      <workItem from="1561863765741" duration="2207000" />
+      <workItem from="1561866010292" duration="5976000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="57844000" />
+    <option name="totallyTimeSpent" value="73348000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13113007" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19402985" />
       <window_info id="Favorites" order="1" side_tool="true" />
-      <window_info id="Structure" order="2" weight="0.09701493" />
+      <window_info id="Structure" order="2" weight="0.0967118" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49946696" weight="0.32827735" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.8632385" visible="true" weight="0.25135428" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.8632385" weight="0.2567714" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -257,9 +275,9 @@
       <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info anchor="bottom" id="Database Changes" order="10" />
       <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.13676149" side_tool="true" weight="0.3654267" />
-      <window_info anchor="bottom" id="Terminal" order="12" sideWeight="0.4989339" weight="0.3380744" />
+      <window_info anchor="bottom" id="Terminal" order="12" sideWeight="0.4989339" weight="0.26868907" />
       <window_info anchor="bottom" id="Python Console" order="13" sideWeight="0.4989339" weight="0.22535211" />
-      <window_info anchor="bottom" id="manage.py@Mydemy" order="14" sideWeight="0.8470149" weight="0.13434453" />
+      <window_info anchor="bottom" id="manage.py@Mydemy" order="14" sideWeight="0.8470149" weight="0.4359673" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -271,23 +289,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/manage.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="5" column="59" selection-start-line="5" selection-start-column="53" selection-end-line="5" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Mydemy/wsgi.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/plugins/xadmin/.tx/config">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/courses/migrations/0001_initial.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-108">
@@ -346,16 +347,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/users/admin.py">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/organizations/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="31" column="1" selection-start-line="31" selection-start-column="1" selection-end-line="39" selection-end-column="100" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/organizations/adminx.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -517,13 +508,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/login.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="81" column="62" selection-start-line="81" selection-start-column="62" selection-end-line="81" selection-end-column="62" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/users/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="343">
@@ -537,13 +521,6 @@
     <entry file="file://$PROJECT_DIR$/apps/utils/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/forgetpwd_reset_fail.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="9" column="7" lean-forward="true" selection-start-line="9" selection-start-column="7" selection-end-line="9" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/users/forms.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="333">
@@ -551,13 +528,6 @@
           <folding>
             <element signature="e#25#49#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/register.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="142" selection-start-line="142" selection-end-line="147" selection-end-column="30" />
         </state>
       </provider>
     </entry>
@@ -592,16 +562,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Mydemy/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="451">
-          <caret line="32" column="1" lean-forward="true" selection-start-line="32" selection-start-column="1" selection-end-line="32" selection-end-column="1" />
-          <folding>
-            <element signature="e#639#680#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/users/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
@@ -614,13 +574,88 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/templates/forgetpwd_reset_fail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="243">
+          <caret line="9" column="7" lean-forward="true" selection-start-line="9" selection-start-column="7" selection-end-line="9" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/register.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="8" column="58" selection-start-line="8" selection-start-column="52" selection-end-line="8" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/login.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="6" column="14" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/organizations/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2349">
+          <caret line="87" selection-start-line="87" selection-end-line="87" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/media/organizations/org/2019/06/9919.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/org-list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="62" column="50" lean-forward="true" selection-start-line="62" selection-start-column="50" selection-end-line="62" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Mydemy/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="104">
+          <caret line="30" column="65" lean-forward="true" selection-start-line="30" selection-start-column="65" selection-end-line="30" selection-end-column="65" />
+          <folding>
+            <element signature="e#639#680#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/organizations/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="16" column="10" lean-forward="true" selection-start-line="16" selection-start-column="10" selection-end-line="16" selection-end-column="10" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Mydemy/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="393">
-          <caret line="91" column="26" lean-forward="true" selection-start-line="91" selection-start-column="26" selection-end-line="91" selection-end-column="26" />
+        <state relative-caret-position="338">
+          <caret line="161" column="23" lean-forward="true" selection-start-line="161" selection-start-column="23" selection-end-line="161" selection-end-column="23" />
           <folding>
             <element signature="e#307#316#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Mydemy/credentials.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
         </state>
       </provider>
     </entry>
