@@ -20,7 +20,7 @@ import xadmin
 
 from Mydemy.settings import MEDIA_ROOT
 from users.views import LoginView, RegisterView, ActivateView, ForgetPwdView, ResetPwdView, DoResetPwdView
-from organizations.views import OrgView
+
 
 
 urlpatterns = [
@@ -33,6 +33,6 @@ urlpatterns = [
     url(r'^forgetpwd/$', ForgetPwdView.as_view(), name='forget_pwd'),
     url(r'^resetpwd/(?P<verification_code>.*)/$', ResetPwdView.as_view(), name="reset_pwd"),
     url(r'^do_resetpwd/$', DoResetPwdView.as_view(), name='do_reset_pwd'),
-    url(r'^org_list/$', OrgView.as_view(), name='org_list'),
+    url(r'^org/', include('organizations.urls', namespace='org')),
     url(r'^media/(?P<path>.*)/$', serve, {'document_root': MEDIA_ROOT}),
 ]

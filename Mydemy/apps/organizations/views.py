@@ -1,12 +1,15 @@
 from django.shortcuts import render
 from django.views.generic import View
-from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
+from django.http import HttpResponse
+from pure_pagination import Paginator, PageNotAnInteger
 
 from Mydemy.settings import PAGINATION_SETTINGS
 from .models import City, CourseOrg
+from .forms import UserRequestForm
 
 
 class OrgView(View):
+
     def get(self, request):
         all_cities = City.objects.all()
         all_orgs = CourseOrg.objects.all()
@@ -43,3 +46,9 @@ class OrgView(View):
             'provider_type': provider_type,
             'org_list_order_by': org_list_order_by,
         })
+
+
+class UserRequestView(View):
+
+    def post(self, request):
+        return HttpResponse({'status': 'success'}, content_type='application/json')
