@@ -51,4 +51,12 @@ class OrgView(View):
 class UserRequestView(View):
 
     def post(self, request):
-        return HttpResponse({'status': 'success'}, content_type='application/json')
+        user_request_form = UserRequestForm(request.POST)
+        if user_request_form.is_valid():
+            user_request_form.save(commit=True)
+            return HttpResponse('{"status": "success"}', content_type='application/json')
+        else:
+            ret_err_msg = ''
+            for field, errors in user_request_form.errors.items():
+                ret_err_msg += 'Field: {} Error(s): {}'.format(field, ','.join(errors)) + '<br>'
+            return HttpResponse('{"status": "fail", "err_msg": "Invalid Input"}', content_type='application/json')

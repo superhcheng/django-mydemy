@@ -123,22 +123,22 @@
             </div>
         </div>
         <div class="right companyright">
-                <div class="head">我要学习</div>
+                <div class="head">Course Request</div>
                 <form class="rightform" id="jsStayForm">
                     <div>
                         <img src="{% static 'images/rightform1.png' %}"/>
-                        <input type="text" name="name" id="companyName" placeholder="名字" maxlength="25" />
+                        <input type="text" name="name" id="companyName" placeholder="Name" maxlength="25" />
                     </div>
                     <div>
                         <img src="{% static 'images/rightform2.png' %}"/>
-                        <input type="text" name="mobile" id="companyMobile" placeholder="联系电话"/>
+                        <input type="text" name="mobile" id="companyMobile" placeholder="Mobile"/>
                     </div>
                     <div>
                         <img src="{% static 'images/rightform3.png' %}"/>
-                        <input type="text" name="course_name" id="companyAddress" placeholder="课程名" maxlength="50" />
+                        <input type="text" name="course_name" id="companyAddress" placeholder="Course Name" maxlength="50" />
                     </div>
                     <p class="error company-tips" id="jsCompanyTips"></p>
-                    <input class="btn" type="text" id="jsStayBtn" value="立即咨询 >" />
+                    <input class="btn" type="text" id="jsStayBtn" value="Request" />
                     {% csrf_token %}
                 </form>
             </div>
@@ -155,4 +155,40 @@
                     {% endfor %}
             </div>
     </div>
+{% endblock %}
+
+
+{% block custom_js %}
+    <script>
+    $(function(){
+        $('#jsStayBtn').on('click', function(){
+            var _this = $(this);
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url:"{% url 'org:user_request' %}",
+                data:$('#jsStayForm').serialize(),
+                async: true,
+                beforeSend:function(xhr, settings){
+                    _this.val("Submitting...");
+                    _this.attr("disabled","disabled");
+                },
+                success: function(data) {
+                    console.log(data);
+                    if(data.status == 'success'){
+                        $('#jsStayForm')[0].reset();
+                        alert('Success Submission');
+                    }else if(data.status == 'fail'){
+                        console.log(data.err_msg);
+                        $('#jsCompanyTips').html(data.err_msg).show();
+                    }
+                },
+                complete: function(XMLHttpRequest){
+                    _this.val("Request");
+                    _this.removeAttr("disabled");
+                }
+            });
+        });
+    });
+</script>
 {% endblock %}
