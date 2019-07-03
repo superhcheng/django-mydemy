@@ -1,0 +1,83 @@
+{% extends 'org_base.html' %}
+{% load staticfiles %}
+{% block title %}Organization - Information - Mydemy{% endblock %}
+
+{% block crumbs %}
+    <div class="wp">
+        <ul  class="crumbs">
+            <li><a href="/">Main page</a>></li>
+            <li><a href="">Organization</a>></li>
+            <li>Organization Information</li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block left_org_page %}
+    <div class="left">
+        <ul>
+            <li><a href="org_detail_overview.html">Organization Page</a></li>
+            <li><a href="org_detail_course.html">Course Information</a></li>
+            <li class="active2"><a href="org_detail_org.html">Organization Information</a></li>
+            <li><a href="org_detail_instructor.html">Instructor Information</a></li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block right_org_page %}
+    <div class="right companycenter layout" >
+        <div class="head">
+            <h1>机构介绍</h1>
+        </div>
+        <div class="des">
+            <p>&nbsp; &nbsp; 丰富的教学资源；</p><p>&nbsp; &nbsp;丰富的教学资源丰富的教学资源丰富的教学资源丰富的教学资源丰富的教学资源丰富的教学资源丰富的教学资源丰富的教学资源丰富的教学资源丰富的教学资源丰富的教学资源丰富的教学资源丰富的教学资源丰富的教学资源丰富的教学资源</p><p>&nbsp; &nbsp; 丰富的教学资源</p><p><br/></p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block custom_js %}
+<script type="text/javascript">
+$(function(){
+    var $precision = $('.precision'),
+        score = $precision.attr('data-star-scope'),
+        option =  {
+                    half		: true,
+                    path		: '../images/',
+                    precision	: true,
+                    size		: 24,
+                    starOff		: 'g_star.png',
+                    starOn		: 'r_star.png',
+                    starHalf	: 'h_star.png',
+                    hints       : ['极差', '差', '一般', '好评', '非常满意'],
+                    noRatedMsg  : '暂时还未获得评价！',
+                    readOnly    : true,
+                    score       : score
+                };
+    $precision.raty(option);
+
+    $('.jsFavBtn').on('click', function(){
+        var type = $(this).attr('data-fav-type');
+        if(type == '1'){
+            favPraise($(this), 'fav' ,1 , '收藏');
+        }else if(type == '3'){
+            favPraise($(this), 'fav' ,3 );
+        }else if(type == '11'){
+            favPraise($(this), 'pra', 1);
+        }else if(type == '4'){
+            favPraise($(this), 'fav' ,4 );
+        }
+    });
+})
+</script>
+{% endblock %}
+
+{#<div class="dialog" id="jsDialog">#}
+{#<!--提示弹出框-->#}
+{#    <div class="successbox dialogbox" id="jsSuccessTips">#}
+{#        <h1>成功提交</h1>#}
+{#        <div class="close jsCloseDialog"><img src="../images/dig_close.png"/></div>#}
+{#        <div class="cont">#}
+{#            <h2>您的需求提交成功！</h2>#}
+{#            <p></p>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}

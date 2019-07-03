@@ -60,3 +60,27 @@ class UserRequestView(View):
             for field, errors in user_request_form.errors.items():
                 ret_err_msg += 'Field: {} Error(s): {}'.format(field, ','.join(errors)) + '<br>'
             return HttpResponse('{"status": "fail", "err_msg": "Invalid Input"}', content_type='application/json')
+
+
+class OrgOverviewView(View):
+
+    def get(self, request, org_id):
+        return render(request, 'org_detail_overview.html')
+
+
+class OrgInfoView(View):
+
+    def get(self, request, org_id):
+        return render(request, 'org_detail_org.html')
+
+
+class OrgInstructorView(View):
+
+    def get(self, request, org_id):
+        return render(request, 'org_detail_instructor.html')
+
+
+class OrgCourseView(View):
+
+    def get(self, request, org_id):
+        return render(request, 'org_detail_course.html')

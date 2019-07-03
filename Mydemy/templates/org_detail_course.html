@@ -1,0 +1,77 @@
+{% extends 'org_base.html' %}
+{% load staticfiles %}
+{% block title %}Organization - Course - Mydemy{% endblock %}
+
+{% block crumbs %}
+    <div class="wp">
+        <ul  class="crumbs">
+            <li><a href="/">Main page</a>></li>
+            <li><a href="">Organization</a>></li>
+            <li>Course Information</li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block left_org_page %}
+    <div class="left">
+        <ul>
+            <li><a href="org_detail_overview.html">Organization Page</a></li>
+            <li class="active2"><a href="org_detail_course.html">Course Information</a></li>
+            <li><a href="org_detail_org.html">Organization Information</a></li>
+            <li><a href="org_detail_instructor.html">Instructor Information</a></li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block right_org_page %}
+    <div class="right companycenter layout" >
+		<div class="head">
+			<h1>机构课程</h1>
+		</div>
+		<div class="brief group_list">
+
+                <div class="module1_5 box">
+                    <a class="comp-img-box" href="/group/groupdetail/13/">
+
+                        <img width="214" height="195" src="../images/sass.jpg"/>
+                    </a>
+                    <div class="des">
+                        <a href="/group/groupdetail/13/"><h2>python web开发</h2></a>
+                        <span class="fl">课时：<i class="key">10小时</i></span>
+                        <span class="fr">学习人数：3</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="fl">南京大学</span>
+                         <span class="star fr  notlogin
+                            " data-favid="13" data-fav-type="4">
+                            3
+                        </span>
+                    </div>
+                </div>
+		</div>
+			<div class="pageturn">
+                <ul class="pagelist">
+                    <li class="active"><a href="?page=1">1</a></li>
+                </ul>
+            </div>
+	</div>
+{% endblock %}
+
+{% block custom_js %}
+<script type="text/javascript">
+$(function(){
+    $('.jsFavBtn').on('click', function(){
+        var type = $(this).attr('data-fav-type');
+        if(type == '1'){
+            favPraise($(this), 'fav' ,1 , '收藏');
+        }else if(type == '3'){
+            favPraise($(this), 'fav' ,3 );
+        }else if(type == '11'){
+            favPraise($(this), 'pra', 1);
+        }else if(type == '4'){
+            favPraise($(this), 'fav' ,4 );
+        }
+    });
+});
+</script>
+{% endblock %}
