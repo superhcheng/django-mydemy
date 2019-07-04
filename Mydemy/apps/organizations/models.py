@@ -5,6 +5,7 @@ from django.db import models
 
 # Create your models here.
 
+
 class City(models.Model):
     name = models.CharField(max_length=50, verbose_name='City Name')
     desc = models.CharField(max_length=200, verbose_name='City Description')
@@ -16,6 +17,7 @@ class City(models.Model):
 
     def __unicode__(self):
         return self.name
+
 
 class CourseOrg(models.Model):
     name = models.CharField(max_length=50, verbose_name='Organization Name')
@@ -38,9 +40,11 @@ class CourseOrg(models.Model):
     def __unicode__(self):
         return self.name
 
+
 class Instructor(models.Model):
     org = models.ForeignKey(CourseOrg, on_delete=models.CASCADE, verbose_name='Organization')
     name = models.CharField(max_length=50, verbose_name='Instructor Name')
+    avatar = models.ImageField(upload_to='organizations/instructor/%Y/%m', null=True, verbose_name='Avatar')
     work_year = models.IntegerField(default=0, verbose_name='Year(s) of Working Experience')
     curr_company =  models.CharField(max_length=50, verbose_name='Current Company')
     curr_title = models.CharField(max_length=50, verbose_name='Title')

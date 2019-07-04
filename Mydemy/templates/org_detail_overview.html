@@ -15,10 +15,10 @@
 {% block left_org_page %}
     <div class="left">
         <ul>
-            <li class="active2"><a>Organization Page</a></li>
-            <li><a href="{% url 'org:org_course' org.id %}">Course Information</a></li>
-            <li><a href="{% url 'org:org_info' org.id %}">Organization Information</a></li>
-            <li><a href="{% url 'org:org_instructor' org.id %}">Instructor Information</a></li>
+            <li class="active2"><a>Organization</a></li>
+            <li><a href="{% url 'org:org_course' org.id %}">Course</a></li>
+            <li><a href="{% url 'org:org_info' org.id %}">Organization</a></li>
+            <li><a href="{% url 'org:org_instructor' org.id %}">Instructor</a></li>
         </ul>
     </div>
 {% endblock %}
@@ -26,73 +26,65 @@
 {% block right_org_page %}
 	<div class="right companycenter layout grouping" >
 		<div class="head">
-			<h1>全部课程</h1>
-			<a class="green fr more" href="org_detail_course.html">查看更多  >  </a>
+			<h1>All Courses</h1>
+			<a class="green fr more" href="{% url 'org:org_course' org.id %}">View more  >  </a>
 		</div>
 		<div class="brief group_list">
-                <div class="module1_5 box">
-                    <a href="/group/groupdetail/13/"><img width="214" src="../images/sass.jpg"/></a>
-                    <div class="des">
-                        <a href="/group/groupdetail/13/"><h2>Sass和Compass必备技能之Compass</h2></a>
-                        <span class="fl">课时：<i class="key">10小时</i></span>
-                        <span class="fr">参加人数：4</span>
-                    </div>
-                    <div class="bottom">
-                        <span class="fl">南京大学</span>
-                         <span class="star fr  notlogin
-                            " data-favid="13"  data-fav-type="4">
-                            0
-                        </span>
-                    </div>
-                </div>
-
-                <div class="module1_5 box">
-                    <a href="/group/groupdetail/13/"><img width="214" src="../images/sass.jpg"/></a>
-                    <div class="des">
-                        <a href="/group/groupdetail/13/"><h2>Sass和Compass必备技能之Compass</h2></a>
-                        <span class="fl">课时：<i class="key">10小时</i></span>
-                        <span class="fr">参加人数：4</span>
-                    </div>
-                    <div class="bottom">
-                        <span class="fl">南京大学</span>
-                             <span class="star fr  notlogin
-                                " data-favid="13"  data-fav-type="4">
-                                0
-                            </span>
-                    </div>
-                </div>
+                {% if org_courses %}
+                    {% for course in org_courses %}
+                        <div class="module1_5 box">
+                            <a href="/group/groupdetail/13/"><img width="214" src="{{ MEDIA_URL }}{{ course.image }}"/></a>
+                            <div class="des">
+                                <a href="/group/groupdetail/13/"><h2>{{ course.name }}</h2></a>
+                                <span class="fl">Duration:<i class="key">{{ course.course_duration }}</i></span>
+                                <span class="fr">Students:<i class="key">{{ course.student_count }}</i></span>
+                            </div>
+                            <div class="bottom">
+                                <span class="fl">{{ course.org.name }}</span>
+                                 <span class="star fr  notlogin" data-favid="13"  data-fav-type="4">{{ course.fav_count }}</span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
 		</div>
 	</div>
     <div class="right companycenter layout" >
         <div class="head">
-            <h1>机构教师</h1>
-            <a class="green fr more" href="org_detail_instructor.html">查看更多  >  </a>
+            <h1>Instructors</h1>
+            <a class="green fr more" href="{% url 'org:org_instructor' org.id %}">View more  >  </a>
         </div>
+
         <div class="diarys">
             <div class="module5 share company-diary-box" style="padding:10px 0;">
-                <div class="left">
-                    <img class="pic" src="../images/sass.jpg"/>
-                    <p>昵称：马云</p>
-                </div>
-                <div class="right">
-                    <div class="top">
-                        <div class="fl">
-                            <a href=""><h1>java开发教程</h1></a>
-                            <span>发表于：2015-10-12</span>
-                        </div>
+                {% if org_instructors %}
+                    {% for instructor in org_instructors %}
+                    <div class="left">
+                        <img class="pic" src="{{ MEDIA_URL }}{{ instructor.avatar }}"/>
+                        <p>{{ instructor.name }}</p>
                     </div>
-                    <div class="middle" style="border-bottom:0;">课程介绍</div>
-                </div>
+                    <div class="right">
+                        <div class="top">
+                            <div class="fl">
+                                <a href=""><h1>java开发教程</h1></a>
+                                <span>Available：2015-10-12</span>
+                            </div>
+                        </div>
+                        <div class="middle" style="border-bottom:0;">???课程介绍???</div>
+                    </div>
+                    {% endfor %}
+                {% endif %}
             </div>
         </div>
 
     </div>
 	<div class="right companycenter layout" >
 		<div class="head">
-			<h1>机构介绍</h1>
-			<a class="green fr more" href="org_detail_org.html">查看更多  >  </a>
+			<h1>Organization Information</h1>
+			<a class="green fr more" href="{% url 'org:org_info' org.id %}">View More  >  </a>
 		</div>
-		<div class="cont">&nbsp; &nbsp; 慕课网慕课网慕课网慕课网慕课网慕课网慕课网慕课网慕课网慕课网慕课网慕课网慕课网慕课网慕课网慕课网慕课网慕课网慕课网慕课网慕课网慕课网慕课网慕课网慕课网慕课网慕课网慕课网慕课网<a href="/company/desc/22/"><span class="green">[查看更多]</span></a></div>
+		<div class="cont">
+            <span>{{ org.desc }}</span>
+        </div>
 	</div>
 {% endblock %}
 
@@ -103,31 +95,18 @@ $(function(){
         score = $precision.attr('data-star-scope'),
         option =  {
                     half		: true,
-                    path		: '../images/',
+                    path		: '{% static 'images/' %}',
                     precision	: true,
                     size		: 24,
                     starOff		: 'g_star.png',
                     starOn		: 'r_star.png',
                     starHalf	: 'h_star.png',
-                    hints       : ['极差', '差', '一般', '好评', '非常满意'],
+                    hints       : ['Horrible', 'Bad', 'So So', 'Good', 'Great'],
                     noRatedMsg  : '暂时还未获得评价！',
                     readOnly    : true,
                     score       : score
                 };
     $precision.raty(option);
-
-    $('.jsFavBtn').on('click', function(){
-        var type = $(this).attr('data-fav-type');
-        if(type == '1'){
-            favPraise($(this), 'fav' ,1 , '收藏');
-        }else if(type == '3'){
-            favPraise($(this), 'fav' ,3 );
-        }else if(type == '11'){
-            favPraise($(this), 'pra', 1);
-        }else if(type == '4'){
-            favPraise($(this), 'fav' ,4 );
-        }
-    });
 });
 $(function() {
     $('.recordbtn1').click(function(){

@@ -38,7 +38,7 @@ class OrgView(View):
         p = Paginator(all_orgs, PAGINATION_SETTINGS['PAGE_RANGE_DISPLAYED'], request=request)
         ret_orgs = p.page(page)
 
-        return render(request, 'org-list.html', {
+        return render(request, 'org_list.html', {
             'all_cities': all_cities,
             'all_orgs': ret_orgs,
             'top_orgs': top_orgs,
@@ -67,9 +67,13 @@ class OrgOverviewView(View):
 
     def get(self, request, org_id):
         org = CourseOrg.objects.get(id=org_id)
+        org_courses = org.course_set.all()[:3]
+        org_instructors = org.instructor_set.all()[:1]
         if org:
             return render(request, 'org_detail_overview.html', {
-                'org': org
+                'org': org,
+                'org_courses': org_courses,
+                'org_instructors': org_instructors,
             })
         else:
             return redirect('org:list')

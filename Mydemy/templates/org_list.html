@@ -65,13 +65,13 @@
                     {% for org in all_orgs.object_list %}
                     <dl class="des difdes">
                         <dt>
-                            <a href="org_detail_overview.html">
+                            <a href="{% url 'org:org_overview' org.id %}">
                                 <img width="200" height="120" class="scrollLoading" data-url="{{ MEDIA_URL }}{{ org.image }}" src="{% static 'images/pixel.gif' %}"/>
                             </a>
                         </dt>
                         <dd>
                             <div class="clearfix">
-                                 <a href="org_detail_overview.html">
+                                 <a href="{% url 'org:org_overview' org.id %}">
                                      <h1>{{ org.name }}</h1>
                                      <div class="pic fl">
                                          <img src="{% static 'images/authentication.png' %}"/>
@@ -80,7 +80,7 @@
                                  </a>
                             </div>
                             <ul class="cont">
-                                <li class="first"><p class="pic9">课程数：<span>???</span></p><p class="c7">学习人数：<span>???</span></p></li>
+                                <li class="first"><p class="pic9">Total Courses：<span>{{ org.course_count }}</span></p><p class="c7">Total Students：<span>{{ org.student_count }}</span></p></li>
                                 <li class="c8" style="padding-left:18px;">{{ org.address }}</li>
                                 <li class="pic10" style="padding-left:18px;">Top pick(s)：
                                     <a href="/diary/19/">???</a>

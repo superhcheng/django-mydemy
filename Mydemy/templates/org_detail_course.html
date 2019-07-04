@@ -15,10 +15,10 @@
 {% block left_org_page %}
     <div class="left">
         <ul>
-            <li><a href="{% url 'org:org_overview' org.id %}">Organization Page</a></li>
-            <li class="active2"><a>Course Information</a></li>
-            <li><a href="{% url 'org:org_info' org.id %}">Organization Information</a></li>
-            <li><a href="{% url 'org:org_instructor' org.id %}">Instructor Information</a></li>
+            <li><a href="{% url 'org:org_overview' org.id %}">Organization</a></li>
+            <li class="active2"><a>Course</a></li>
+            <li><a href="{% url 'org:org_info' org.id %}">Organization</a></li>
+            <li><a href="{% url 'org:org_instructor' org.id %}">Instructor</a></li>
         </ul>
     </div>
 {% endblock %}
@@ -55,23 +55,4 @@
                 </ul>
             </div>
 	</div>
-{% endblock %}
-
-{% block custom_js %}
-<script type="text/javascript">
-$(function(){
-    $('.jsFavBtn').on('click', function(){
-        var type = $(this).attr('data-fav-type');
-        if(type == '1'){
-            favPraise($(this), 'fav' ,1 , '收藏');
-        }else if(type == '3'){
-            favPraise($(this), 'fav' ,3 );
-        }else if(type == '11'){
-            favPraise($(this), 'pra', 1);
-        }else if(type == '4'){
-            favPraise($(this), 'fav' ,4 );
-        }
-    });
-});
-</script>
 {% endblock %}
