@@ -7,6 +7,7 @@ from pure_pagination import Paginator, PageNotAnInteger
 from Mydemy.settings import PAGINATION_SETTINGS
 from .models import City, CourseOrg
 from .forms import UserRequestForm
+from operations.models import UserFavorite
 
 
 class OrgView(View):
@@ -74,6 +75,7 @@ class OrgOverviewView(View):
                 'org': org,
                 'org_courses': org_courses,
                 'org_instructors': org_instructors,
+                'fav_btn_val': getFavState(request, fav_id=org_id),
             })
         else:
             return redirect('org:list')
@@ -85,7 +87,8 @@ class OrgInfoView(View):
         org = CourseOrg.objects.get(id=org_id)
         if org:
             return render(request, 'org_detail_org.html', {
-                'org': org
+                'org': org,
+                'fav_btn_val': getFavState(request, fav_id=org_id),
             })
         else:
             return redirect('org:list')
@@ -100,6 +103,7 @@ class OrgInstructorView(View):
             return render(request, 'org_detail_instructor.html', {
                 'org': org,
                 'org_instructors': org_instructors,
+                'fav_btn_val': getFavState(request, fav_id=org_id),
             })
         else:
             return redirect('org:list')
@@ -114,6 +118,37 @@ class OrgCourseView(View):
             return render(request, 'org_detail_course.html', {
                 'org': org,
                 'org_courses': org_courses,
+                'fav_btn_val': getFavState(request, fav_id=org_id),
             })
         else:
             return redirect('org:list')
+
+
+class OrgFavView(View):
+
+    def post(self, request):
+        if request.user.is_authenticated():
+            fav_id = int(request.POST.get('fav_id', 0))
+            user_fav = UserFavorite.objects.filter(user=request.user, fav_id=fav_id, fav_type=3)
+            if user_fav:
+                user_fav.delete()
+                return HttpResponse('{"status": "success", "msg": "Favorite"}', content_type='application/json')
+            else:
+                user_fav = UserFavorite()
+                user_fav.user = request.user
+                user_fav.fav_id = fav_id
+                user_fav.fav_type = 3
+                user_fav.save()
+                return HttpResponse('{"status": "success", "msg": "Un-Favorite"}', content_type='application/json')
+        else:
+            return HttpResponse('{"status": "fail", "err_msg": "Login Required"}', content_type='application/json')
+
+
+def getFavState(request, fav_id):
+    if request.user.is_authenticated():
+        if UserFavorite.objects.filter(user=request.user, fav_id=fav_id, fav_type=3):
+            return 'Un-favorite'
+        else:
+            return 'Favorite'
+    else:
+        return 'Favorite'

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 	<meta charset="UTF-8">
     <meta name="renderer" content="webkit">
@@ -20,15 +19,15 @@
                     <div class="fl"><p>Phone：<b>800800800</b></p></div>
                     <div class="personal">
                         <dl class="user fr">
-                            <dd>admin@admin.com<img class="down fr" src="/static/images/top_down.png"/></dd>
-                            <dt><img width="20" height="20" src="/uploads/avatar/default_big.png"/></dt>
+                            <dd>{{ user.username }}<img class="down fr" src="/static/images/top_down.png"/></dd>
+                            <dt><img width="20" height="20" src="{{ MEDIA_URL }}{{ user.image }}"/></dt>
                         </dl>
                         <div class="userdetail">
                             <dl>
-                                <dt><img width="80" height="80" src="/uploads/avatar/default_big.png"/></dt>
+                                <dt><img width="80" height="80" src="{{ MEDIA_URL }}{{ user.image }}"/></dt>
                                 <dd>
-                                    <h2>Admin</h2>
-                                    <p>admin@admin.com</p>
+                                    <h2>{{ user.nickname }}</h2>
+                                    <p>{{ user.email }}</p>
                                 </dd>
                             </dl>
                             <div class="btn">
@@ -85,7 +84,7 @@
 							<li class="">
 								<a href="teachers-list.html">授课教师</a>
 							</li>
-							<li ><a href="{% url 'org:list' %}">授课机构</a></li>
+							<li ><a href="{% url 'org:list' %}">Organization</a></li>
 						</ul>
 					</div>
 				</div>
@@ -93,8 +92,7 @@
 			</div>
     </header>
 </section>
-<!--banner start-->
-		<div class="banner">
+		<div class="banner"><!--banner start-->
 			<div class="wp">
 				<div class="fl">
 					<div class="imgslide">
@@ -134,7 +132,6 @@
 					<div class="unslider-arrow prev"></div>
 					<div class="unslider-arrow next"></div>
 				</div>
-<<<<<<< HEAD
 				<div class="fr">
 					<div class="top">
 						<ul class="sec_topr_tab">
@@ -364,12 +361,12 @@
 	<section>
 		<div class="module greybg">
 			<div class="wp">
-				<h1>培训机构</h1>
+				<h1>Organization</h1>
 				<div class="module3 eachmod">
 					<div class="module3_1 left">
 						<img width="228" height="463" src="/static/images/module3_1.jpg"/>
-						<p class="fisrt_word">名校来袭<br/>权威认证</p>
-						<a class="more" href="{% url 'org:list' %}">查看更多机构 ></a>
+						<p class="fisrt_word">Top-rated<br/>Organizaiton/individual</p>
+						<a class="more" href="{% url 'org:list' %}">View more organization ></a>
 					</div>
 					<div class="right">
 						<ul>
@@ -683,7 +680,6 @@
             if(shareComment){
                 config.bdComment = shareComment;
             }
-
             return config;
         }
         window._bd_share_config = {

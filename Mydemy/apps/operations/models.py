@@ -31,9 +31,11 @@ class CourseComment(models.Model):
 
 class UserFavorite(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, verbose_name='User')
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='Course')
+    #course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='Course')
     fav_id = models.IntegerField(default=1, verbose_name='Favorite ID')
-    fav_type = models.IntegerField(default=1, choices=((1,'Instructor'),(2,'Course'),(3,'Organization')), verbose_name='Favorite Type')
+    fav_type = models.IntegerField(default=1,
+                                   choices=((1,'Instructor'),(2,'Course'),(3,'Organization')),
+                                   verbose_name='Favorite Type')
 
     class Meta:
         verbose_name = 'User Favorite'
