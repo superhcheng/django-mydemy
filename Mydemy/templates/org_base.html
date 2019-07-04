@@ -29,7 +29,7 @@
                 <img class="fl" src="{% static 'images/companylogo.jpg' %}"/>
                 <div class="head fl">
                     <h1>
-                        清华大学
+                        {{ org.name }}
                         <img src="{% static 'images/authentication.png' %}"/>
                         <img src="{% static 'images/gold.png' %}"/>
                     </h1>
@@ -62,10 +62,10 @@
         {% block left_org_page %}
 		<div class="left">
 			<ul>
-                <li class="active2"><a href="org_detail_overview.html">Organization Page</a></li>
-                <li ><a href="org_detail_course.html">Course Information</a></li>
-                <li ><a href="org_detail_org.html">Organization Information</a></li>
-                <li ><a href="org_detail_instructor.html">Instructor Information</a></li>
+                <li class="active2"><a href="org_detail_overview.html">BBBOrganization Page</a></li>
+                <li ><a href="org_detail_course.html">BBBCourse Information</a></li>
+                <li ><a href="org_detail_org.html">BBBOrganization Information</a></li>
+                <li ><a href="org_detail_instructor.html">BBBInstructor Information</a></li>
 			</ul>
 		</div>
         {% endblock %}

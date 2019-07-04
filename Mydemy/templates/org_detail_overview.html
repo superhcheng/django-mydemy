@@ -15,10 +15,10 @@
 {% block left_org_page %}
     <div class="left">
         <ul>
-            <li class="active2"><a href="org_detail_overview.html">Organization Page</a></li>
-            <li><a href="org_detail_course.html">Course Information</a></li>
-            <li><a href="org_detail_org.html">Organization Information</a></li>
-            <li><a href="org_detail_instructor.html">Instructor Information</a></li>
+            <li class="active2"><a>Organization Page</a></li>
+            <li><a href="{% url 'org:org_course' org.id %}">Course Information</a></li>
+            <li><a href="{% url 'org:org_info' org.id %}">Organization Information</a></li>
+            <li><a href="{% url 'org:org_instructor' org.id %}">Instructor Information</a></li>
         </ul>
     </div>
 {% endblock %}

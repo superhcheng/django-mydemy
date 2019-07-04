@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import View
 from django.http import HttpResponse
+from django.shortcuts import redirect
 from pure_pagination import Paginator, PageNotAnInteger
 
 from Mydemy.settings import PAGINATION_SETTINGS
@@ -65,22 +66,47 @@ class UserRequestView(View):
 class OrgOverviewView(View):
 
     def get(self, request, org_id):
-        return render(request, 'org_detail_overview.html')
+        org = CourseOrg.objects.get(id=org_id)
+        if org:
+            return render(request, 'org_detail_overview.html', {
+                'org': org
+            })
+        else:
+            return redirect('org:list')
 
 
 class OrgInfoView(View):
 
     def get(self, request, org_id):
-        return render(request, 'org_detail_org.html')
+        org = CourseOrg.objects.get(id=org_id)
+        if org:
+            return render(request, 'org_detail_org.html', {
+                'org': org
+            })
+        else:
+            return redirect('org:list')
 
 
 class OrgInstructorView(View):
 
     def get(self, request, org_id):
-        return render(request, 'org_detail_instructor.html')
+        org = CourseOrg.objects.get(id=org_id)
+        if org:
+            return render(request, 'org_detail_instructor.html', {
+                'org': org
+            })
+        else:
+            return redirect('org:list')
+
 
 
 class OrgCourseView(View):
 
     def get(self, request, org_id):
-        return render(request, 'org_detail_course.html')
+        org = CourseOrg.objects.get(id=org_id)
+        if org:
+            return render(request, 'org_detail_course.html', {
+                'org': org
+            })
+        else:
+            return redirect('org:list')

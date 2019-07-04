@@ -52,3 +52,6 @@ class Instructor(models.Model):
     class Meta:
         verbose_name = 'Instructor'
         verbose_name_plural = 'Instructors'
+
+    def __unicode__(self):
+        return self.name
