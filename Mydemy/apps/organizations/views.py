@@ -95,22 +95,25 @@ class OrgInstructorView(View):
 
     def get(self, request, org_id):
         org = CourseOrg.objects.get(id=org_id)
+        org_instructors = org.instructor_set.all()
         if org:
             return render(request, 'org_detail_instructor.html', {
-                'org': org
+                'org': org,
+                'org_instructors': org_instructors,
             })
         else:
             return redirect('org:list')
-
 
 
 class OrgCourseView(View):
 
     def get(self, request, org_id):
         org = CourseOrg.objects.get(id=org_id)
+        org_courses = org.course_set.all()
         if org:
             return render(request, 'org_detail_course.html', {
-                'org': org
+                'org': org,
+                'org_courses': org_courses,
             })
         else:
             return redirect('org:list')

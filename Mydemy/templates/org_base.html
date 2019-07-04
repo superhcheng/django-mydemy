@@ -89,7 +89,25 @@ $(function(){
             favPraise($(this), 'fav' ,4 );
         }
     });
-})
+    $(function(){
+    var $precision = $('.precision'),
+        score = $precision.attr('data-star-scope'),
+        option =  {
+                    half		: true,
+                    path		: '{% static 'images/' %}',
+                    precision	: true,
+                    size		: 24,
+                    starOff		: 'g_star.png',
+                    starOn		: 'r_star.png',
+                    starHalf	: 'h_star.png',
+                    hints       : ['Horrible', 'Bad', 'So So', 'Good', 'Great'],
+                    noRatedMsg  : 'No rating yet！',
+                    readOnly    : true,
+                    score       : score
+                };
+        $precision.raty(option);
+    });
+});
 </script>
 {% block custom_js %}{% endblock %}
 </body>

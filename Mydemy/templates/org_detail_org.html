@@ -34,29 +34,6 @@
     </div>
 {% endblock %}
 
-{% block custom_js %}
-<script type="text/javascript">
-$(function(){
-    var $precision = $('.precision'),
-        score = $precision.attr('data-star-scope'),
-        option =  {
-                    half		: true,
-                    path		: '{% static 'images/' %}',
-                    precision	: true,
-                    size		: 24,
-                    starOff		: 'g_star.png',
-                    starOn		: 'r_star.png',
-                    starHalf	: 'h_star.png',
-                    hints       : ['极差', '差', '一般', '好评', '非常满意'],
-                    noRatedMsg  : '暂时还未获得评价！',
-                    readOnly    : true,
-                    score       : score
-                };
-    $precision.raty(option);
-});
-</script>
-{% endblock %}
-
 {#<div class="dialog" id="jsDialog">#}
 {#<!--提示弹出框-->#}
 {#    <div class="successbox dialogbox" id="jsSuccessTips">#}

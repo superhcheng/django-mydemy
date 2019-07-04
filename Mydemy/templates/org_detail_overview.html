@@ -90,24 +90,6 @@
 
 {% block custom_js %}
 <script type="text/javascript">
-$(function(){
-    var $precision = $('.precision'),
-        score = $precision.attr('data-star-scope'),
-        option =  {
-                    half		: true,
-                    path		: '{% static 'images/' %}',
-                    precision	: true,
-                    size		: 24,
-                    starOff		: 'g_star.png',
-                    starOn		: 'r_star.png',
-                    starHalf	: 'h_star.png',
-                    hints       : ['Horrible', 'Bad', 'So So', 'Good', 'Great'],
-                    noRatedMsg  : '暂时还未获得评价！',
-                    readOnly    : true,
-                    score       : score
-                };
-    $precision.raty(option);
-});
 $(function() {
     $('.recordbtn1').click(function(){
         $('.recordbox1').show();

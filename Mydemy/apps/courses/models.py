@@ -5,7 +5,6 @@ from django.db import models
 
 from organizations.models import CourseOrg
 
-# Create your models here.
 
 class Course(models.Model):
     name = models.CharField(max_length=100, verbose_name='Course Name')
@@ -27,6 +26,7 @@ class Course(models.Model):
     def __unicode__(self):
         return self.name
 
+
 class Lesson(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='Course Name')
     name = models.CharField(max_length=50, verbose_name='Lesson Name')
@@ -36,6 +36,7 @@ class Lesson(models.Model):
         verbose_name = 'Lesson'
         verbose_name_plural = 'Lessons'
 
+
 class Video(models.Model):
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, verbose_name='Lesson Name')
     name = models.CharField(max_length=100, verbose_name='Video Name')
@@ -44,6 +45,7 @@ class Video(models.Model):
     class Meta:
         verbose_name = 'Video'
         verbose_name_plural = 'Videos'
+
 
 class Resource(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='Course Name')

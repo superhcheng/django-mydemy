@@ -18,7 +18,7 @@
             <li><a href="{% url 'org:org_overview' org.id %}">Organization</a></li>
             <li><a href="{% url 'org:org_course' org.id %}">Course</a></li>
             <li><a href="{% url 'org:org_info' org.id %}">Organization</a></li>
-            <li class="active2"><a>Instructor Information</a></li>
+            <li class="active2"><a>Instructor</a></li>
         </ul>
 		</div>
 {% endblock %}
@@ -26,71 +26,31 @@
 {% block right_org_page %}
     <div class="right companycenter layout" >
         <div class="head">
-            <h1>机构介绍</h1>
+            <h1>Instructors</h1>
         </div>
         <div class="messagelist">
             <div class=" butler_list butler-fav-box">
-                <dl class="des users">
-                    <dt>
-                        <a href="">
-                        <img width="100" height="100" class="scrollLoading" data-url="../images/sass.jpg" src="../images/sass.jpg"/>
-                        </a>
-                    </dt>
-                    <dd>
-                        <h1>
-                            <a href="">
-                            张老师<span class="key">已认证</span>
-                            </a>
-                        </h1>
-                        <ul class="cont clearfix">
-                            <li class="time">工作年限：<span>8年</span></li>
-                            <li class="c7">课程数：<span>3</span></li>
-                        </ul>
-                    </dd>
-                </dl>
-                <dl class="des users">
-                    <dt>
-                        <a href="">
-                            <img width="100" height="100" class="scrollLoading" data-url="../images/sass.jpg" src="../images/sass.jpg"/>
-                        </a>
-                    </dt>
-                    <dd>
-                        <h1>
-                            <a href="">
-                                张老师<span class="key">已认证</span>
-                            </a>
-                        </h1>
-                        <ul class="cont clearfix">
-                            <li class="time">工作年限：<span>8年</span></li>
-                            <li class="c7">课程数：<span>3</span></li>
-                        </ul>
-                    </dd>
-                </dl>
+                {% if org_instructors %}
+                    {% for instructor in org_instructors %}
+                        <dl class="des users">
+                            <dt>
+                                <a href="">
+                                    <img width="100" height="100" class="scrollLoading" data-url="{{ MEDIA_URL }}{{ instructor.avatar }}" src="{{ MEDIA_URL }}{{ instructor.avatar }}"/>
+                                </a>
+                            </dt>
+                            <dd>
+                                <h1>
+                                    <a href="">{{ instructor.name }}<span class="key">Verified</span></a>
+                                </h1>
+                                <ul class="cont clearfix">
+                                    <li class="time">Work Experience：<span>{{ instructor.work_year }}</span></li>
+                                    <li class="">Courses：<span>{{ instructor.curr_company }}</span></li>
+                                </ul>
+                            </dd>
+                        </dl>
+                    {% endfor %}
+                {% endif %}
             </div>
         </div>
     </div>
-{% endblock %}
-
-
-{% block custom_js %}
-<script type="text/javascript">
-$(function(){
-    var $precision = $('.precision'),
-        score = $precision.attr('data-star-scope'),
-        option =  {
-                    half		: true,
-                    path		: '../images/',
-                    precision	: true,
-                    size		: 24,
-                    starOff		: 'g_star.png',
-                    starOn		: 'r_star.png',
-                    starHalf	: 'h_star.png',
-                    hints       : ['极差', '差', '一般', '好评', '非常满意'],
-                    noRatedMsg  : '暂时还未获得评价！',
-                    readOnly    : true,
-                    score       : score
-                };
-    $precision.raty(option);
-});
-</script>
 {% endblock %}

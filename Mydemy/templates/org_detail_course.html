@@ -26,33 +26,32 @@
 {% block right_org_page %}
     <div class="right companycenter layout" >
 		<div class="head">
-			<h1>机构课程</h1>
+			<h1>Courses</h1>
 		</div>
-		<div class="brief group_list">
-
+        {% if org_courses %}
+            <div class="brief group_list">
+            {% for course in org_courses %}
                 <div class="module1_5 box">
                     <a class="comp-img-box" href="/group/groupdetail/13/">
-
-                        <img width="214" height="195" src="../images/sass.jpg"/>
+                        <img width="214" height="195" src="{{ MEDIA_URL }}{{ course.image }}"/>
                     </a>
                     <div class="des">
-                        <a href="/group/groupdetail/13/"><h2>python web开发</h2></a>
-                        <span class="fl">课时：<i class="key">10小时</i></span>
-                        <span class="fr">学习人数：3</span>
+                        <a href="/group/groupdetail/13/"><h2>{{ course.name }}</h2></a>
+                        <span class="fl">Duration:<i class="key">{{ course.course_duration }}</i></span>
+                        <span class="fr">Students:<i class="key">{{ course.student_count }}</i></span>
                     </div>
                     <div class="bottom">
-                        <span class="fl">南京大学</span>
-                         <span class="star fr  notlogin
-                            " data-favid="13" data-fav-type="4">
-                            3
-                        </span>
+                        <span class="fl">{{ course.org.name }}</span>
+                         <span class="star fr  notlogin" data-favid="13" data-fav-type="4">{{ course.fav_count }}</span>
                     </div>
                 </div>
-		</div>
-			<div class="pageturn">
-                <ul class="pagelist">
-                    <li class="active"><a href="?page=1">1</a></li>
-                </ul>
+            {% endfor %}
             </div>
+        {% endif %}
+        <div class="pageturn">
+            <ul class="pagelist">
+                <li class="active"><a href="?page=1">1 PAGATION HERE</a></li>
+            </ul>
+        </div>
 	</div>
 {% endblock %}
