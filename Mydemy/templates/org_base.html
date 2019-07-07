@@ -114,7 +114,7 @@ $(function(){
                 cache: false,
                 type: "POST",
                 url: "{% url 'org:org_fav' %}",
-                data: {'fav_id': fav_id},
+                data: {'fav_id': fav_id, 'fav_type': 3},
                 async: true,
                 beforeSend: function (xhr, settings) {
                     xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
@@ -135,7 +135,6 @@ $(function(){
         }
         $('.collectionbtn').on('click', function () {
             add_fav($(this), {{ org.id }});
-            {#   2根据models定义类似进行   #}
         });
 
         $('.jsFavBtn').on('click', function(){

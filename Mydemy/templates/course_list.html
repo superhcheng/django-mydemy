@@ -7,66 +7,97 @@
 {#    <script src="{% static 'ueditor/ueditor.config.js' %}" type="text/javascript"></script>#}
 {#    <script src="{% static 'ueditor/ueditor.all.min.js' %}" type="text/javascript"></script>#}
 {% block crumbs %}
-	<div class="wp">
-		<ul  class="crumbs">
-			<li><a href="/">Main</a>></li>
+    <div class="wp">
+        <ul class="crumbs">
+            <li><a href="/">Main</a>></li>
             <li>Courses</li>
-		</ul>
-	</div>
+        </ul>
+    </div>
 {% endblock crumbs %}
 
 {% block content %}
-	<div class="wp">
-		<div class="list" style="margin-top:0;">
-			<div class="left layout">
-				<div class="head">
-					<ul class="tab_header">
-						<li class="{% ifequal current_order_by '' %}active{% endifequal %}"><a href="?order_by=">Date</a></li>
-						<li class="{% ifequal current_order_by 'fav' %}active{% endifequal %}"><a href="?order_by=fav">Hot</a></li>
-						<li class="{% ifequal current_order_by 'stu' %}active{% endifequal %}"><a href="?order_by=stu">Enrollment</a></li>
-					</ul>
-				</div>
+    <div class="wp">
+        <div class="list" style="margin-top:0;">
+            <div class="left layout">
+                <div class="head">
+                    <ul class="tab_header">
+                        <li class="{% ifequal current_order_by '' %}active{% endifequal %}"><a
+                                href="?order_by=">Date</a></li>
+                        <li class="{% ifequal current_order_by 'fav' %}active{% endifequal %}"><a href="?order_by=fav">Hot</a>
+                        </li>
+                        <li class="{% ifequal current_order_by 'stu' %}active{% endifequal %}"><a href="?order_by=stu">Enrollment</a>
+                        </li>
+                    </ul>
+                </div>
                 <div id="inWindow">
                     <div class="tab_cont " id="content">
-					    <div class="group_list">
-                        {% if courses %}
-                            {% for course in courses %}
-                                <div class="box">
-                                    <a href="course-detail.html">
-                                        <img width="280" height="350" class="scrollLoading" data-url="{{ MEDIA_URL }}{{ course.image }}" src="{{ MEDIA_URL }}{{ course.image }}"/>
-                                    </a>
-                                    <div class="des">
-                                        <a href="course-detail.html">
-                                            <h2>{{ course.name }}</h2>
+                        <div class="group_list">
+                            {% if courses.object_list %}
+                                {% for course in courses.object_list %}
+                                    <div class="box">
+                                        <a href="{% url 'course:overview' course.id %}">
+                                            <img width="280" height="350" class="scrollLoading"
+                                                 data-url="{{ MEDIA_URL }}{{ course.image }}"
+                                                 src="{{ MEDIA_URL }}{{ course.image }}"/>
                                         </a>
-                                        <span class="fl">Duration：<i class="key">{{ course.course_duration }} hours</i></span>
-                                        <span class="fr">Students: {{ course.student_count }}&nbsp;&nbsp;</span>
+                                        <div class="des">
+                                            <a href="{% url 'course:overview' course.id %}">
+                                                <h2>{{ course.name }}</h2>
+                                            </a>
+                                            <span class="fl">Duration：<i
+                                                    class="key">{{ course.course_duration }} hours</i></span>
+                                            <span class="fr">Students: {{ course.student_count }}&nbsp;&nbsp;</span>
+                                        </div>
+                                        <div class="bottom">
+                                            <a href="{% url 'org:org_overview' course.org.id %}"><span
+                                                    class="fl">{{ course.org.name }}</span></a>
+                                            <span class="star fr  notlogin"
+                                                  data-favid="15">{{ course.fav_count }}</span>
+                                        </div>
                                     </div>
-                                    <div class="bottom">
-                                        <a href="org-detail-homepage.html"><span class="fl">{{ course.org.name }}</span></a>
-                                        <span class="star fr  notlogin" data-favid="15">{{ course.fav_count }}</span>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        {% endif %}
-					</div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
                         <div class="pageturn">
-                        <ul class="pagelist">
-                                        <li class="active"><a href="?page=1">1</a></li>
-                        </ul>
+                            <ul class="pagelist">
+                                {% if courses.has_previous %}
+                                    <li class="long">
+                                        <a href="?{{ courses.previous_page_number.querystring }}">Prev</a>
+                                    </li>
+                                {% endif %}
+                                {% for page in courses.pages %}
+                                    {% if page %}
+                                        {% ifequal page courses.number %}
+                                            <li class="active"><a>{{ page }}</a></li>
+                                        {% else %}
+                                            <li class="page">
+                                                <a href="?{{ page.querystring }}">{{ page }}</a>
+                                            </li>
+                                        {% endifequal %}
+                                    {% endif %}
+                                {% endfor %}
+                                {% if courses.has_next %}
+                                    <li class="long">
+                                        <a href="?{{ courses.next_page_number.querystring }}">Next</a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+
                     </div>
-				    </div>
                 </div>
-			</div>
-			<div class="right layout">
-				<div class="head">Top Courses</div>
-				<div class="group_recommend">
+            </div>
+            <div class="right layout">
+                <div class="head">Top Courses</div>
+                <div class="group_recommend">
                     {% if top_courses %}
                         {% for course in top_courses %}
                             <dl>
                                 <dt>
                                     <a target="_blank" href="???">
-                                        <img width="240" height="220" class="scrollLoading" data-url="{{ MEDIA_URL }}{{ course.image }}" src="{{ MEDIA_URL }}{{ course.image }}"/>
+                                        <img width="240" height="220" class="scrollLoading"
+                                             data-url="{{ MEDIA_URL }}{{ course.image }}"
+                                             src="{{ MEDIA_URL }}{{ course.image }}"/>
                                     </a>
                                 </dt>
                                 <dd>
@@ -76,33 +107,33 @@
                             </dl>
                         {% endfor %}
                     {% endif %}
-				</div>
-			</div>
-		</div>
-	</div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 
 {% block custom_js %}
-<script type="text/javascript">
-        $(function() {
-            $('.tab_header a').on('click', function(){
+    <script type="text/javascript">
+        $(function () {
+            $('.tab_header a').on('click', function () {
                 $(this).parent().addClass('active').siblings().removeClass('active');
             });
 
-            $('#jsGroupOver').on('change', function(){
+            $('#jsGroupOver').on('change', function () {
                 var _self = $(this),
                     parentNode = _self.parents('li'),
                     url = '?order_by=time&is_expire=';
                 parentNode.addClass('active').siblings().removeClass('active');
-                if(_self.is(':checked')){
+                if (_self.is(':checked')) {
                     url = '?order_by=time&is_expire=yes';
                 }
                 window.location.href = url;
             });
 
-            $('.jsFavBtn').on('click', function(){
-                favPraise($(this), 'fav' ,4 );
+            $('.jsFavBtn').on('click', function () {
+                favPraise($(this), 'fav', 4);
             });
         });
         var shareUrl = '',
@@ -117,51 +148,53 @@
                     fxtext = $parent.attr('data-text'),
                     fxdesc = $parent.attr('data-desc'),
                     fxcomment = $parent.attr('data-comment');
-                switch (type){
+                switch (type) {
                     case 'tsina':
                     case 'tqq':
                     case 'renren':
-                            shareUrl = fxurl;
-                            shareText = fxdesc;
-                            shareDesc = '';
-                            shareComment = '';
+                        shareUrl = fxurl;
+                        shareText = fxdesc;
+                        shareDesc = '';
+                        shareComment = '';
                         break;
                     default :
-                            shareUrl = fxurl;
-                            shareText = fxtext;
-                            shareDesc = fxdesc;
-                            shareComment = fxcomment;
+                        shareUrl = fxurl;
+                        shareText = fxtext;
+                        shareDesc = fxdesc;
+                        shareComment = fxcomment;
                         break;
                 }
             });
         });
+
         function SetShareUrl(cmd, config) {
             if (shareUrl) {
                 config.bdUrl = "http://www.domile.com.cn" + shareUrl;
             }
-            if(shareText){
+            if (shareText) {
                 config.bdText = shareText;
             }
-            if(shareDesc){
+            if (shareDesc) {
                 config.bdDesc = shareDesc;
             }
-            if(shareComment){
+            if (shareComment) {
                 config.bdComment = shareComment;
             }
             return config;
         }
+
         window._bd_share_config = {
             "common": {
-                "onBeforeClick":SetShareUrl,
-                "bdPic":"http://www.domile.com.cn../images/logo2.png",
-                "bdMini":"2",
-                "searchPic":"1",
-                "bdMiniList":false
+                "onBeforeClick": SetShareUrl,
+                "bdPic": "http://www.domile.com.cn../images/logo2.png",
+                "bdMini": "2",
+                "searchPic": "1",
+                "bdMiniList": false
             },
             "share": {
-                "bdSize":"16"
+                "bdSize": "16"
             }
         };
-    with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
+        with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];
+    </script>
 {% endblock %}

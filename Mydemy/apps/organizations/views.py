@@ -129,7 +129,9 @@ class OrgFavView(View):
     def post(self, request):
         if request.user.is_authenticated():
             fav_id = int(request.POST.get('fav_id', 0))
-            user_fav = UserFavorite.objects.filter(user=request.user, fav_id=fav_id, fav_type=3)
+            fav_type = int(request.POST.get('fav_type', 0))
+
+            user_fav = UserFavorite.objects.filter(user=request.user, fav_id=fav_id, fav_type=fav_type)
             if user_fav:
                 user_fav.delete()
                 return HttpResponse('{"status": "success", "msg": "Favorite"}', content_type='application/json')
@@ -137,7 +139,7 @@ class OrgFavView(View):
                 user_fav = UserFavorite()
                 user_fav.user = request.user
                 user_fav.fav_id = fav_id
-                user_fav.fav_type = 3
+                user_fav.fav_type = fav_type
                 user_fav.save()
                 return HttpResponse('{"status": "success", "msg": "Un-Favorite"}', content_type='application/json')
         else:

@@ -40,6 +40,9 @@ class CourseOrg(models.Model):
     def __unicode__(self):
         return self.name
 
+    def getAllInstructors(self):
+        return self.instructor_set.all()
+
 
 class Instructor(models.Model):
     org = models.ForeignKey(CourseOrg, on_delete=models.CASCADE, verbose_name='Organization')
