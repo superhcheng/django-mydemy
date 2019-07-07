@@ -3,7 +3,7 @@ from django.views.generic import View
 from pure_pagination import Paginator, PageNotAnInteger
 
 from Mydemy.settings import PAGINATION_SETTINGS
-from .models import Course
+from .models import Course, Lesson, Resource
 from operations.models import UserFavorite
 
 
@@ -66,4 +66,19 @@ class CourseOverviewView(View):
 class CourseCommentView(View):
     def get(self, request, course_id):
         pass
+
+
+class CourseVideoListView(View):
+    def get(self, request, course_id):
+        course = Course.objects.get(id=int(course_id))
+        lessons = Lesson.objects.filter(course=course)
+        res_list = Resource.objects.filter(course=course)
+
+        return render(request, 'course_detail_videolist.html', {
+            'lessons': lessons,
+            'course': course,
+            'instructor': course.instructor,
+            'res_list': res_list,
+        })
+
 

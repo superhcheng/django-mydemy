@@ -3,12 +3,13 @@ from datetime import datetime
 
 from django.db import models
 
-from organizations.models import CourseOrg
+from organizations.models import CourseOrg, Instructor
 
 
 class Course(models.Model):
     name = models.CharField(max_length=100, verbose_name='Course Name')
     org = models.ForeignKey(CourseOrg, on_delete=models.CASCADE, null=True, verbose_name='Organization')
+    instructor = models.ForeignKey(Instructor, on_delete=models.CASCADE, null=True, blank=True, verbose_name='Instructor')
     desc = models.CharField(max_length=500, verbose_name='Course Description')
     detail = models.CharField(max_length=100, verbose_name='Course Detail')
     category = models.CharField(max_length=100, default='', verbose_name='Course Category')
@@ -18,6 +19,8 @@ class Course(models.Model):
     fav_count = models.IntegerField(default=0, verbose_name='Favourite Count')
     click_count = models.IntegerField(default=0, verbose_name='Click Count')
     image = models.ImageField(upload_to='image/courses/course/%Y/%m', default='image/courses/course/default.png', max_length=200, verbose_name='Course Image')
+    course_notes = models.CharField(max_length=500, default="", verbose_name='Course Notes')
+    course_objectives = models.CharField(max_length=500, default="", verbose_name='Course Objectives')
     create_time = models.DateTimeField(default=datetime.now, verbose_name='Course Created Time')
 
     class Meta:
@@ -46,10 +49,17 @@ class Lesson(models.Model):
     def __unicode__(self):
         return self.name
 
+    def get_all_videos(self):
+        ret = self.video_set.all()
+        print ret.count()
+        return ret
+
 
 class Video(models.Model):
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, verbose_name='Lesson Name')
     name = models.CharField(max_length=100, verbose_name='Video Name')
+    video_url = models.CharField(max_length=300, default='', verbose_name='Video URL')
+    video_duration = models.IntegerField(default=0, verbose_name='Video Duration')
     create_time = models.DateTimeField(default=datetime.now, verbose_name='Video Created Time')
 
     class Meta:
