@@ -4,7 +4,7 @@ from pure_pagination import Paginator, PageNotAnInteger
 
 from Mydemy.settings import PAGINATION_SETTINGS
 from .models import Course, Lesson, Resource
-from operations.models import UserFavorite
+from operations.models import UserFavorite, CourseComment
 
 
 class CourseListView(View):
@@ -80,5 +80,28 @@ class CourseVideoListView(View):
             'instructor': course.instructor,
             'res_list': res_list,
         })
+
+
+class CourseCommentsView(View):
+    def get(self, request, course_id):
+        course = Course.objects.get(id=int(course_id))
+        comments = CourseComment.objects.filter(course=course).order_by('-create_time')
+        res_list = Resource.objects.filter(course=course)
+
+        try:
+            page = request.GET.get('page', 1)
+        except PageNotAnInteger:
+            page = 1
+
+        p = Paginator(comments, PAGINATION_SETTINGS['PAGE_RANGE_DISPLAYED'], request=request)
+        ret_comments = p.page(page)
+
+        return render(request, 'course_detail_comment.html', {
+            'course': course,
+            'comments': ret_comments,
+            'instructor': course.instructor,
+            'res_list': res_list,
+        })
+
 
 

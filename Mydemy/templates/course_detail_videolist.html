@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+
 {% load staticfiles %}
 
 {% block title %}Course - {{ course.name }} Video List - Mydemy{% endblock %}
@@ -58,7 +59,7 @@
                     <div class="mod-tab-menu">
                         <ul class="course-menu clearfix">
                             <li><a class="ui-tabs-active active" id="learnOn"  href="course_detail_videolist.html"><span>Chapters</span></a></li>
-                            <li><a id="commentOn" class="" href="course-comment.html"><span>Comments</span></a></li>
+                            <li><a id="commentOn" class="" href="{% url 'course:comments' course.id %}"><span>Comments</span></a></li>
                         </ul>
                     </div>
                     <div id="notice" class="clearfix">
