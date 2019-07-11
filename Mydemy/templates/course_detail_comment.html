@@ -65,20 +65,9 @@
 
                     <div id="js-pub-container" class="issques clearfix js-form">
                         <div class="wgt-ipt-wrap pub-editor-wrap " id="js-pl-input-fake">
-                            <textarea id="js-pl-textarea" class="" placeholder="I'm open to discuss anything here......" ></textarea>
-                            <span class="num-limit"><span id="js-pl-limit">0</span>/300</span>
+                            <textarea id="js-pl-textarea" class="" placeholder="Comment here......"></textarea>
                         </div>
-                        <div id="pub-btm" class="pub-btm clearfix">
-                            <div class="verify-box l js-verify-box" style="display: none">
-                                <input type="text" class="ipt l" placeholder="请输入验证码">
-                                <a href="javascript:;" class="js-verify-refresh"><img data-src="/course/getcoursecommentcode" class="verify-media l"/></a>
-                                <span class="verify-help l">看不清
-                                    <a href="javascript:;" class="verify-refresh js-verify-refresh">换一换</a>
-                                </span>
-                            </div>
-                            <input type="button" id="js-pl-submit" class="pub-btn r" data-cid="452" value="Submit">
-                            <span class="errortip r">Empty Comments</span>
-                        </div>
+                        <input type="button" id="js-pl-submit" class="pub-btn" data-cid="452" value="Comment">
                         <p class="global-errortip js-global-error"></p>
                     </div>
 
@@ -216,17 +205,54 @@
                                 </div>
                             </div>
                         </div>
-
-                    </div>    </div>
+                    </div>
+                </div>
             </div>
             <div class="clear"></div>
-
         </div>
-
     </div>
     </div>
 {% endblock %}
 
 
 {% block custom_js %}
+    <script type="text/javascript">
+        (function () {
+            $("#js-pl-submit").on('click', function(){
+                var comment = $("#js-pl-textarea").val();
+                if (comment) {
+                    $.ajax({
+                        cache: false,
+                        type: "POST",
+                        url: "{% url 'course:add_comment' %}",
+                        data:{
+                            course_id: {{ course.id }},
+                            comment: comment
+                        },
+                        async: true,
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                        },
+                        success: function (data) {
+                            if (data.status == 'fail') {
+                                if (data.err_msg == 'Login Required') {
+                                    console.log("Go go login");
+                                    window.location.href = "{% url 'login' %}";
+                                } else {
+                                    alert(data.err_msg);
+                                }
+                            } else if (data.status == 'success') {
+                                window.location.reload();
+                            }
+                        },
+                        error: function (err) {
+                            console.log(err);
+                        }
+                    });
+                } else {
+                    alert("Comment cannot be empty");
+                }
+            });
+        })();
+    </script>
 {% endblock %}

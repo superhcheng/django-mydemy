@@ -141,10 +141,10 @@
                         if (data.msg == 'Login Required') {
                             window.location.href = "{% url 'login' %}";
                         } else {
-                            alert(data.msg)
+                            alert(data.msg);
                         }
                     } else if (data.status == 'success') {
-                        current_elem.text(data.msg)
+                        current_elem.text(data.msg);
                     }
                 }
             });

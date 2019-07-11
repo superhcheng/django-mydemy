@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from django.views.generic import View
 from pure_pagination import Paginator, PageNotAnInteger
+from django.http import HttpResponse
 
 from Mydemy.settings import PAGINATION_SETTINGS
+from utils.mixin_util import LoginMixInView
 from .models import Course, Lesson, Resource
 from operations.models import UserFavorite, CourseComment
 
@@ -68,7 +70,7 @@ class CourseCommentView(View):
         pass
 
 
-class CourseVideoListView(View):
+class CourseVideoListView(LoginMixInView, View):
     def get(self, request, course_id):
         course = Course.objects.get(id=int(course_id))
         lessons = Lesson.objects.filter(course=course)
@@ -104,4 +106,21 @@ class CourseCommentsView(View):
         })
 
 
+class CourseAddCommentView(View):
+    def post(self, request):
+        if not request.user.is_authenticated():
+            return HttpResponse('{"status": "fail", "err_msg": "Login Required"}', content_type='application/json')
+        else:
+            course_id = int(request.POST.get('course_id', 0))
+            comment = request.POST.get('comment', '')
+            course = Course.objects.get(id=course_id)
 
+            if course_id > 0 and comment and course:
+                course_comment = CourseComment()
+                course_comment.user = request.user
+                course_comment.comment = comment
+                course_comment.course = course
+                course_comment.save()
+                return HttpResponse('{"status": "success", "msg": "Comment added"}', content_type='application/json')
+            else:
+                return HttpResponse('{"status": "fail", "err_msg": "Could not add comment"}', content_type='application/json')
