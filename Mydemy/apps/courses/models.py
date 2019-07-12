@@ -51,7 +51,6 @@ class Lesson(models.Model):
 
     def get_all_videos(self):
         ret = self.video_set.all()
-        print ret.count()
         return ret
 
 

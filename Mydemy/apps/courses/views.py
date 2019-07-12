@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from Mydemy.settings import PAGINATION_SETTINGS
 from utils.mixin_util import LoginMixInView
 from .models import Course, Lesson, Resource
-from operations.models import UserFavorite, CourseComment
+from operations.models import UserFavorite, CourseComment, UserCourse
 
 
 class CourseListView(View):
@@ -65,11 +65,6 @@ class CourseOverviewView(View):
         })
 
 
-class CourseCommentView(View):
-    def get(self, request, course_id):
-        pass
-
-
 class CourseVideoListView(LoginMixInView, View):
     def get(self, request, course_id):
         course = Course.objects.get(id=int(course_id))
@@ -81,10 +76,11 @@ class CourseVideoListView(LoginMixInView, View):
             'course': course,
             'instructor': course.instructor,
             'res_list': res_list,
+            'related_courses': get_related_courses(course),
         })
 
 
-class CourseCommentsView(View):
+class CourseCommentsView(LoginMixInView, View):
     def get(self, request, course_id):
         course = Course.objects.get(id=int(course_id))
         comments = CourseComment.objects.filter(course=course).order_by('-create_time')
@@ -98,11 +94,17 @@ class CourseCommentsView(View):
         p = Paginator(comments, PAGINATION_SETTINGS['PAGE_RANGE_DISPLAYED'], request=request)
         ret_comments = p.page(page)
 
+        user_courses = UserCourse.objects.filter(course=course)
+        course_ids = [ user_course.course.id for user_course in user_courses]
+        related_courses = Course.objects.filter(id__in=course_ids).order_by('-click_count')[:5]
+
         return render(request, 'course_detail_comment.html', {
             'course': course,
             'comments': ret_comments,
             'instructor': course.instructor,
             'res_list': res_list,
+            'related_courses': related_courses,
+            'related_courses': get_related_courses(course),
         })
 
 
@@ -114,7 +116,6 @@ class CourseAddCommentView(View):
             course_id = int(request.POST.get('course_id', 0))
             comment = request.POST.get('comment', '')
             course = Course.objects.get(id=course_id)
-
             if course_id > 0 and comment and course:
                 course_comment = CourseComment()
                 course_comment.user = request.user
@@ -124,3 +125,11 @@ class CourseAddCommentView(View):
                 return HttpResponse('{"status": "success", "msg": "Comment added"}', content_type='application/json')
             else:
                 return HttpResponse('{"status": "fail", "err_msg": "Could not add comment"}', content_type='application/json')
+
+
+def get_related_courses(course):
+    user_courses = UserCourse.objects.filter(course=course)
+    user_ids = [user_course.user.id for user_course in user_courses]
+    all_user_courses = UserCourse.objects.filter(user_id__in=user_ids)
+    course_ids = [each.course.id for each in all_user_courses]
+    return Course.objects.filter(id__in=course_ids).order_by('-click_count')[:5]
