@@ -5,7 +5,7 @@ from django.shortcuts import redirect
 from pure_pagination import Paginator, PageNotAnInteger
 
 from Mydemy.settings import PAGINATION_SETTINGS
-from .models import City, CourseOrg
+from .models import City, CourseOrg, Instructor
 from .forms import UserRequestForm
 from operations.models import UserFavorite
 
@@ -144,6 +144,38 @@ class OrgFavView(View):
                 return HttpResponse('{"status": "success", "msg": "Un-Favorite"}', content_type='application/json')
         else:
             return HttpResponse('{"status": "fail", "err_msg": "Login Required"}', content_type='application/json')
+
+
+class InstructorListView(View):
+    def get(self, request):
+        instructors = Instructor.objects.all()
+        order_by = request.GET.get('order_by', '')
+
+        if order_by == 'fav':
+            instructors = instructors.order_by('-click_count')
+
+        try:
+            page = request.GET.get('page', 1)
+        except PageNotAnInteger:
+            page = 1
+
+        p = Paginator(instructors, PAGINATION_SETTINGS['PAGE_RANGE_DISPLAYED'], request=request)
+        ret_instructors = p.page(page)
+
+        return render(request, 'instructor_list.html', {
+            'instructors': ret_instructors,
+            'order_by': order_by,
+            'top_instructors': instructors.order_by('-click_count')[:5],
+        })
+
+
+class InstructorInfoView(View):
+    def get(self, request, ins_id):
+        instructor = Instructor.objects.get(id=int(ins_id))
+
+        return render(request, 'instructor_info.html', {
+            'instructor': instructor,
+        })
 
 
 def getFavState(request, fav_id):

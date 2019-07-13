@@ -51,7 +51,7 @@ class Instructor(models.Model):
     work_year = models.IntegerField(default=0, verbose_name='Year(s) of Working Experience')
     curr_company =  models.CharField(max_length=50, verbose_name='Current Company')
     curr_title = models.CharField(max_length=50, verbose_name='Title')
-    point = models.IntegerField(default=0, verbose_name='Point')
+    specialty = models.CharField(null=True, blank=True, max_length=300, verbose_name='Specialty')
     fav_count = models.IntegerField(default=0, verbose_name='Favourite Count')
     click_count = models.IntegerField(default=0, verbose_name='Click Count')
     create_time = models.DateTimeField(default=datetime.now, verbose_name='Instructor Created Time')

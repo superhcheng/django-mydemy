@@ -75,12 +75,12 @@
 				<div class="nav">
 					<div class="wp">
 						<ul>
-							<li class="active"><a href="index.html">首页</a></li>
+							<li class="active"><a href="index.html">Main</a></li>
 							<li >
 								<a href="{% url 'course:list' %}">Courses<img class="hot" src="/static/images/nav_hot.png"></a>
 							</li>
 							<li class="">
-								<a href="teachers-list.html">授课教师</a>
+								<a href="{% url 'org:instructor_list' %}">Instructors</a>
 							</li>
 							<li ><a href="{% url 'org:list' %}">Organizations</a></li>
 						</ul>

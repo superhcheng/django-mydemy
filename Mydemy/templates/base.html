@@ -78,7 +78,7 @@
 						<ul>
 							<li class="active"><a href="index.html">Home</a></li>
 							<li><a href="{% url 'course:list' %}">Courses<img class="hot" src="{% static 'images/nav_hot.png' %}"></a></li>
-							<li><a href="teachers-list.html">Instructors</a></li>
+							<li><a href="{% url 'org:instructor_list' %}">Instructors</a></li>
 							<li><a href="{% url 'org:list' %}">Organizations</a></li>
 						</ul>
 					</div>
