@@ -2,32 +2,33 @@
 
 {% load staticfiles %}
 
-{% block title %}Course - {{ course.name }} Video List - Mydemy{% endblock %}
-
-{% block custom_css %}
-    <link href="{% static 'css/aui.css' %}" rel="stylesheet" type="text/css" />
-    <link href="{% static 'css/mooc.css' %}" rel="stylesheet" type="text/css" />
-    <link href="{% static 'css/common/base.css' %}" rel="stylesheet" type="text/css">
-    <link href="{% static 'css/common/common-less.css' %}" rel="stylesheet" type="text/css" />
-    <link href="{% static 'css/common/course/common-less.css' %}" rel="stylesheet" type="text/css" />
-    <link href="{% static 'css/common/course/learn-less.css' %}" rel="stylesheet" type="text/css" />
-{% endblock %}
+{% block title %}{{ video.name  }} - Mydemy {% endblock %}
 
 {% block crumbs %}
-    <div class="wp">
-        <ul  class="crumbs">
-            <li><a href="/">Main page</a>></li>
-            <li><a href="{% url 'course:list' %}">Courses</a>></li>
-            <li>Course Video List</li>
-        </ul>
-    </div>
+    <section>
+        <div class="wp">
+            <div class="crumbs">
+                <ul>
+                    <li><a href="/">Main page</a>></li>
+                    <li><a href="{% url 'course:list' %}">Courses</a>></li>
+                    <li><a href="{% url 'course:overview' course.id %}">{{ course.name }}></a></li>
+                    <li>{{ video.name }}</li>
+                </ul>
+            </div>
+        </div>
+    </section>
 {% endblock %}
 
 
 {% block content %}
-<div id="main">
-    <div class="course-infos">
-        <div class="w pr">
+    <div id="main">
+        <div class="course-infos">
+            <div style="width: 1200px;height: 675px; margin: 0 auto;">
+               <video id="example_video_1" class="video-js, vjs-default-skin" controls preload="none" width="1200" poster="" style=" max-height: 700px;"><source src="{{ video.video_url }}" type="video/mp4"></video>
+           </div>
+        </div>
+        <div class="course-infos">
+            <div class="w pr">
             <div style="height: 15px" class="path">
             </div>
             <div class="hd">
@@ -51,9 +52,9 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="course-info-main clearfix w has-progress">
-        <div class="info-bar clearfix">
+        </div>
+        <div class="course-info-main clearfix w has-progress">
+            <div class="info-bar clearfix">
             <div class="content-wrap clearfix">
                 <div class="content">
                     <div class="mod-tab-menu">
@@ -69,26 +70,24 @@
                         </div>
                     </div>
                     <div class="mod-chapters">
-                        {% if lessons %}
-                            {% for lesson in lessons %}
-                                <div class="chapter chapter-active" >
-                                    <h3>
-                                        <span class="aui-iconfont aui-icon-move"></span>
-                                        <strong><i class="state-expand"></i>{{ lesson.name }}</strong>
-                                    </h3>
-                                    <ul class="video">
-                                        {% for v in lesson.get_all_videos %}
-                                            <li>
-                                                <a target="_blank" href='{% url 'course:video_play' v.id %}' class="J-media-item studyvideo">
-                                                    {{ v.name }} ({{ v.video_duration }})
-                                                    <i class="study-state"></i>
-                                                </a>
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            {% endfor %}
-                        {% endif %}
+                        {% for lesson in lessons %}
+                            <div class="chapter chapter-active" >
+                                <h3>
+                                    <span class="aui-iconfont aui-icon-move"></span>
+                                    <strong><i class="state-expand"></i>{{ lesson.name }}</strong>
+                                </h3>
+                                <ul class="video">
+                                    {% for v in lesson.get_all_videos %}
+                                        <li>
+                                            <a href='{% url 'course:video_play' v.id %}' class="J-media-item studyvideo">
+                                                {{ v.name }} ({{ v.video_duration }})
+                                                <i class="study-state"></i>
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="aside r">
@@ -152,25 +151,25 @@
             </div>
             <div class="clear"></div>
         </div>
+        </div>
     </div>
-</div>
+
 {% endblock %}
-
-
+{% block custom_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/common/base.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/common/common-less.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/common/course/learn-less.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/aui.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/mooc.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/common/course/common-less.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/video-js.min.css' %}">
+    <style>
+        .video-js .vjs-big-play-button{
+            top: 50%;
+            left:50%;
+        }
+    </style>
+{% endblock %}
 {% block custom_js %}
-    <script>
-        $(".chapter h3 strong").click(
-            function () {
-                if($(this).parent().find("span").hasClass("aui-icon-add")){
-                    $(this).parent().find("span").removeClass("aui-icon-add");
-                    $(this).parent().find("span").addClass("aui-icon-move");
-                    $(this).parent().parent().addClass("chapter-active");
-                }else if($(this).parent().find("span").hasClass("aui-icon-move")){
-                    $(this).parent().find("span").removeClass("aui-icon-move");
-                    $(this).parent().find("span").addClass("aui-icon-add");
-                    $(this).parent().parent().removeClass("chapter-active");
-                }
-            }
-        );
-    </script>
+    <script src="{% static 'js/video.min.js' %}" type="text/javascript"></script>
 {% endblock %}

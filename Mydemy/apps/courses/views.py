@@ -5,7 +5,7 @@ from django.http import HttpResponse
 
 from Mydemy.settings import PAGINATION_SETTINGS
 from utils.mixin_util import LoginMixInView
-from .models import Course, Lesson, Resource
+from .models import Course, Lesson, Resource, Video
 from operations.models import UserFavorite, CourseComment, UserCourse
 
 
@@ -126,6 +126,21 @@ class CourseAddCommentView(View):
             else:
                 return HttpResponse('{"status": "fail", "err_msg": "Could not add comment"}', content_type='application/json')
 
+
+class VideoPlayView(LoginMixInView, View):
+    def get(self, request, video_id):
+
+        video = Video.objects.get(id=int(video_id))
+        res_list = Resource.objects.filter(course=video.lesson.course)
+        lessons = Lesson.objects.filter(course=video.lesson.course)
+        print lessons
+        return render(request, 'course_video_play.html', {
+            'lessons': lessons,
+            'video': video,
+            'course': video.lesson.course,
+            'instructor': video.lesson.course.instructor,
+            'res_list': res_list
+        })
 
 def get_related_courses(course):
     user_courses = UserCourse.objects.filter(course=course)
