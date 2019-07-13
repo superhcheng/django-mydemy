@@ -1,12 +1,14 @@
 {% extends 'org_base.html' %}
+
 {% load staticfiles %}
+
 {% block title %}Organization - Instructor - Mydemy{% endblock %}
 
 {% block crumbs %}
     <div class="wp">
         <ul  class="crumbs">
             <li><a href="/">Main page</a>></li>
-            <li><a href="{% url 'org:list' %}">Organization</a></li>
+            <li><a href="{% url 'org:list' %}">Organization</a>></li>
             <li>Instructor Information</li>
         </ul>
     </div>
@@ -44,7 +46,7 @@
                                 </h1>
                                 <ul class="cont clearfix">
                                     <li class="time">Work Experience：<span>{{ instructor.work_year }}</span></li>
-                                    <li class="">Courses：<span>{{ instructor.curr_company }}</span></li>
+                                    <li class="">Company：<span>{{ instructor.curr_company }}</span></li>
                                 </ul>
                             </dd>
                         </dl>

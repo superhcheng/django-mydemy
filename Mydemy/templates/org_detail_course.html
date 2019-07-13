@@ -1,12 +1,14 @@
 {% extends 'org_base.html' %}
+
 {% load staticfiles %}
+
 {% block title %}Organization - Course - Mydemy{% endblock %}
 
 {% block crumbs %}
     <div class="wp">
         <ul  class="crumbs">
             <li><a href="/">Main page</a>></li>
-            <li><a href="{% url 'org:list' %}">Organization</a></li>
+            <li><a href="{% url 'org:list' %}">Organization</a>></li>
             <li>Course Information</li>
         </ul>
     </div>

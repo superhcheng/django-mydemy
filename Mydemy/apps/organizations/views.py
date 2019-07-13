@@ -8,6 +8,7 @@ from Mydemy.settings import PAGINATION_SETTINGS
 from .models import City, CourseOrg, Instructor
 from .forms import UserRequestForm
 from operations.models import UserFavorite
+from courses.models import Course
 
 
 class OrgView(View):
@@ -172,9 +173,14 @@ class InstructorListView(View):
 class InstructorInfoView(View):
     def get(self, request, ins_id):
         instructor = Instructor.objects.get(id=int(ins_id))
+        top_instructors = Instructor.objects.all().order_by('-fav_count')[:5]
+        courses = Course.objects.filter(instructor=instructor)
 
         return render(request, 'instructor_info.html', {
             'instructor': instructor,
+            'top_instructors': top_instructors,
+            'courses': courses,
+            'org': instructor.org,
         })
 
 

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+
 {% load staticfiles %}
 
 {% block title %}Mydemy - Course List{% endblock %}
@@ -94,14 +95,14 @@
                         {% for course in top_courses %}
                             <dl>
                                 <dt>
-                                    <a target="_blank" href="???">
+                                    <a target="_blank" href="{% url 'course:overview' course.id %}">
                                         <img width="240" height="220" class="scrollLoading"
                                              data-url="{{ MEDIA_URL }}{{ course.image }}"
                                              src="{{ MEDIA_URL }}{{ course.image }}"/>
                                     </a>
                                 </dt>
                                 <dd>
-                                    <a target="_blank" href="???"><h2> {{ course.name }}</h2></a>
+                                    <a target="_blank" href="{% url 'course:overview' course.id %}"><h2> {{ course.name }}</h2></a>
                                     <span class="fl">Price：<i class="key">$200</i></span>
                                 </dd>
                             </dl>

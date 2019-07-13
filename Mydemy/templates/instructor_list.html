@@ -54,7 +54,6 @@
 							<li>Years of Experience: <span>{{ instructor.work_year }}</span></li>
 							<li>Position: <span>{{ instructor.curr_title }}</span></li>
 							<li>Organization: <span>{{ instructor.curr_company }}&nbsp;</span></li>
-							<li>经典课程: <span>Django从入门到精通</span></li>
 							<li>Specialty:<span>{{ instructor.specialty }}</span></li>
 						</ul>
 					</dd>
@@ -91,25 +90,23 @@
 
         </div>
         <div class="right layout">
-		    <div class="head">Top Rated Instructors</div>
-            {% for instructor in top_instructors %}
-                <div>
-                    <dl class="des" style="height: 100%; width: 100%" >
-                        <span class="num fl">{{ forloop.counter }}</span>
-                        <a href="{% url 'org:instructor_info' instructor.id %}">
-                            <dt>
-                                <img width="50" height="50" class="scrollLoading" src="{{ MEDIA_URL }}{{ instructor.avatar }}"/>
-                            </dt>
+            <div class="head">Top Rated Instructors</div>
+            {% for top_ins in top_instructors %}
+                <dl class="des">
+                    <span class="num fl">1</span>
+                    <a href="{% url 'org:instructor_info' top_ins.id %}">
+                        <dt>
+                            <img width="50" height="50" class="scrollLoading" src="{{ MEDIA_URL }}{{ top_ins.avatar }}"/>
+                        </dt>
+                    </a>
+                    <dd>
+                        <a href="{% url 'org:instructor_info' top_ins.id %}">
+                            <h1 title="{{ top_ins.name }}">{{ top_ins.name }}</h1>
                         </a>
-                        <dd>
-                            <a href="{% url 'org:instructor_info' instructor.id %}">
-                                <h1 title="{{ instructor.name }}">{{ instructor.name }}</h1>
-                            </a>
-                        </dd>
-                    </dl>
-                </div>
+                    </dd>
+                </dl>
             {% endfor %}
-	    </div>
+        </div>
     </div>
 {% endblock %}
 

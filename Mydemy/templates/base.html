@@ -76,10 +76,10 @@
 				<div class="nav">
 					<div class="wp">
 						<ul>
-							<li class="active"><a href="index.html">Home</a></li>
-							<li><a href="{% url 'course:list' %}">Courses<img class="hot" src="{% static 'images/nav_hot.png' %}"></a></li>
-							<li><a href="{% url 'org:instructor_list' %}">Instructors</a></li>
-							<li><a href="{% url 'org:list' %}">Organizations</a></li>
+							<li class="{% ifequal request.path '/' %} active {% endifequal %}"><a href="{% url 'home' %}">Home</a></li>
+							<li class="{% ifequal request.path|slice:":8" '/course/' %} active {% endifequal %}"><a href="{% url 'course:list' %}">Courses<img class="hot" src="{% static 'images/nav_hot.png' %}"></a></li>
+							<li class="{% ifequal request.path|slice:"4:16" '/instructor/' %} active {% endifequal %}"><a href="{% url 'org:instructor_list' %}">Instructors</a></li>
+							<li class="{% if request.path|slice:":5" == '/org/' and request.path|slice:"4:16" != '/instructor/' %} active {% endif %}"><a href="{% url 'org:list' %}">Organizations</a></li>
 						</ul>
 					</div>
 				</div>
@@ -92,7 +92,7 @@
     {% block crumbs %}
 	<div class="wp">
 		<ul  class="crumbs">
-			<li><a href="/">首页</a>></li>
+			<li><a href="/">Main</a>></li>
 		</ul>
 	</div>
     {% endblock crumbs %}
@@ -142,6 +142,8 @@
 <script src="{% static 'js/plugins/jquery.scrollLoading.js' %}"  type="text/javascript"></script>
 <script src="{% static 'js/validateDialog.js' %}"  type="text/javascript"></script>
 <script src="{% static 'js/deco-common.js' %}"  type="text/javascript"></script>
-{% block custom_js %}{% endblock %}
+{% block custom_js %}
+    <script src="{% static 'js/index.js' %}" type="application/javascript"></script>
+{% endblock %}
 </body>
 </html>
