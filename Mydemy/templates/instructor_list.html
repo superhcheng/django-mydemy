@@ -25,7 +25,7 @@
 					<li class="{% ifnotequal order_by 'fav' %}active{% endifnotequal %}"><a href="?order_by=">No sort filter</a> </li>
 					<li class="{% ifequal order_by 'fav' %}active{% endifequal %}"><a href="?order_by=fav">Hot&#8595;</a></li>
 				</ul>
-                <div class="fr butler-num">Total<span class="key">{{ instructors.count }}</span>&nbsp;&nbsp;&nbsp;</div>
+                <div class="fr butler-num">Total: <span class="key">{{ instructors.object_list.count }}</span>&nbsp;&nbsp;&nbsp;</div>
 			</div>
                 {% for instructor in instructors.object_list %}
                     <dl class="des">
@@ -35,16 +35,15 @@
                                 <img width="100" height="100" class="scrollLoading" src="{{ MEDIA_URL }}{{ instructor.avatar }}"/>
                             </div>
                         </a>
-						<div class="btn">
-							<div class="fl btn1  notlogin">收藏</div>
-							<div class="fr btn2 bdsharebuttonbox"
-                                 data-text="授课教师-奥巴马-慕学网"
-                                 data-desc="我在#慕课网#发现了教师“奥巴马”，对学习中的小伙伴很有帮助，一起来看看吧。"
-                                 data-comment="奥巴马金牌讲师，从业年限：5年；管家学历：本科；服务区域：温江区&nbsp;；经典案例：温江鹭湖宫；"
-                                 data-url="/diary/hk_detail/10/">
-                                <span class="fl">Share</span>
+                        <div class="btns">
+                            <div class="btn colectgroupbtn favbtn" style="background-color: orange" ins-id="{{ instructor.id }}">
+                                {% if instructor.is_fav %}
+                                    Un-favorite
+                                {% else %}
+                                    Favorite
+                                {% endif %}
                             </div>
-						</div>
+                        </div>
 					</dt>
 					<dd>
 						<a href="{% url 'org:instructor_info' instructor.id %}">
@@ -54,7 +53,7 @@
 							<li>Years of Experience: <span>{{ instructor.work_year }}</span></li>
 							<li>Position: <span>{{ instructor.curr_title }}</span></li>
 							<li>Organization: <span>{{ instructor.curr_company }}&nbsp;</span></li>
-							<li>Specialty:<span>{{ instructor.specialty }}</span></li>
+							<li>Specialty: <span>{{ instructor.specialty }}</span></li>
 						</ul>
 					</dd>
                     <a class="buy buyservice" href="{% url 'org:instructor_info' instructor.id %}"><br>Details</a>
@@ -113,35 +112,32 @@
 
 {% block custom_js %}
     <script>
-        $(function () {
-            $('#jsStayBtn').on('click', function () {
-                var _this = $(this);
-                $.ajax({
-                    cache: false,
-                    type: "POST",
-                    url: "{% url 'org:user_request' %}",
-                    data: $('#jsStayForm').serialize(),
-                    async: true,
-                    beforeSend: function (xhr, settings) {
-                        _this.val("Submitting...");
-                        _this.attr("disabled", "disabled");
-                    },
-                    success: function (data) {
-                        console.log(data);
-                        if (data.status == 'success') {
-                            $('#jsStayForm')[0].reset();
-                            alert('Success Submission');
-                        } else if (data.status == 'fail') {
-                            console.log(data.err_msg);
-                            $('#jsCompanyTips').html(data.err_msg).show();
+        function add_fav(current_elem, fav_id, fav_type) {
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "{% url 'org:org_fav' %}",
+                data: {'fav_id': fav_id, 'fav_type': fav_type},
+                async: true,
+                beforeSend: function (xhr, settings) {
+                    xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                },
+                success: function (data) {
+                    if (data.status == 'fail') {
+                        if (data.msg == 'Login Required') {
+                            window.location.href = "{% url 'login' %}";
+                        } else {
+                            alert(data.msg);
                         }
-                    },
-                    complete: function (XMLHttpRequest) {
-                        _this.val("Request");
-                        _this.removeAttr("disabled");
+                    } else if (data.status == 'success') {
+                        current_elem.text(data.msg);
                     }
-                });
+                }
             });
+        }
+
+        $('.favbtn').on('click', function () {
+            add_fav($(this), $(this).attr('ins-id'), 1);
         });
     </script>
 {% endblock %}

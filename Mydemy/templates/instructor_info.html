@@ -28,13 +28,19 @@
                                 <img width="100" height="100" src="{{ MEDIA_URL }}{{ instructor.avatar }}"/>
                             </div>
                             <div class="btn">
-                                <span class="fl btn1 collectionbtn  notlogin" data-favid="10">收藏</span>
+                                <span id="ins_fav_btn" class="fl btn1 collectionbtn  notlogin">
+                                    {% if ins_fav %}
+                                        Un-favorite
+                                    {% else %}
+                                        Favorite
+                                    {% endif %}
+                                </span>
                                 <span class="fr btn2 shareBtn bdsharebuttonbox"
                                       data-text="授课教师-李老师-慕学网"
                                       data-desc="我在#慕课网#发现了"
                                       data-comment="李老师，工作年限：5年；学历：本科；所在公司：阿里巴巴&nbsp;；经典案例：django入门和深入；flask入门"
                                       data-url="/diary/hk_detail/10/">
-                                    <span class="fl">分享</span>
+                                    <span class="fl">Share</span>
                                     <a href="#" class="bds_more" data-cmd="more"></a>
                                 </span>
                             </div>
@@ -57,7 +63,7 @@
                 <div class="left layout">
 				<div class="head">
 					<ul class="tab_header">
-						<li class="active"><a href="/diary/hk_detail/10/">全部课程</a> </li>
+						<li class="active"><a href="/diary/hk_detail/10/">??? 全部课程</a> </li>
 					</ul>
 				</div>
                     <div class="companycenter">
@@ -98,7 +104,13 @@
                         <h2 class="center">{{ org.name }}</h2>
                     </a>
                     <p class="center tell">City: {{ org.city }}</p>
-                    <a class="btn notlogin" >收藏</a>
+                    <button class="btn notlogin" id="org_fav_btn" >
+                        {% if org_fav %}
+                            Un-favorite
+                        {% else %}
+                            Favorite
+                        {% endif %}
+                    </button>
                 </div>
             </div>
             <div class="butler_detail_cont">
@@ -129,5 +141,37 @@
 
 
 {% block custom_js %}
+    <script>
+        function add_fav(current_elem, fav_id, fav_type) {
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "{% url 'org:org_fav' %}",
+                data: {'fav_id': fav_id, 'fav_type': fav_type},
+                async: true,
+                beforeSend: function (xhr, settings) {
+                    xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                },
+                success: function (data) {
+                    if (data.status == 'fail') {
+                        if (data.msg == 'Login Required') {
+                            window.location.href = "{% url 'login' %}";
+                        } else {
+                            alert(data.msg);
+                        }
+                    } else if (data.status == 'success') {
+                        current_elem.text(data.msg);
+                    }
+                }
+            });
+        }
 
+        $('#ins_fav_btn').on('click', function () {
+            add_fav($(this), {{ instructor.id }}, 1);
+        });
+
+       $('#org_fav_btn').on('click', function () {
+            add_fav($(this), {{ instructor.org.id }}, 3);
+        });
+    </script>
 {% endblock %}

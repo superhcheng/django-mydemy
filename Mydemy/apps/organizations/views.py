@@ -160,6 +160,11 @@ class InstructorListView(View):
         except PageNotAnInteger:
             page = 1
 
+        if request.user.is_authenticated():
+            for ins in instructors:
+                if UserFavorite.objects.filter(user=request.user, fav_id=ins.id, fav_type=1):
+                    ins.is_fav = True
+
         p = Paginator(instructors, PAGINATION_SETTINGS['PAGE_RANGE_DISPLAYED'], request=request)
         ret_instructors = p.page(page)
 
@@ -175,12 +180,22 @@ class InstructorInfoView(View):
         instructor = Instructor.objects.get(id=int(ins_id))
         top_instructors = Instructor.objects.all().order_by('-fav_count')[:5]
         courses = Course.objects.filter(instructor=instructor)
+        ins_fav = False
+        org_fav = False
+
+        if request.user.is_authenticated():
+            if UserFavorite.objects.filter(user=request.user, fav_id=int(ins_id), fav_type=1):
+                ins_fav = True
+            if UserFavorite.objects.filter(user=request.user, fav_id=instructor.org.id, fav_type=3):
+                org_fav = True
 
         return render(request, 'instructor_info.html', {
             'instructor': instructor,
             'top_instructors': top_instructors,
             'courses': courses,
             'org': instructor.org,
+            'ins_fav': ins_fav,
+            'org_fav': org_fav,
         })
 
 
