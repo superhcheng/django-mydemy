@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+{% load staticfiles %}
+<head>
+	<meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" >
+	<title>{% block title %} User - Mydemy{% endblock %}</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/animate.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'js/plugins/queryCity/css/cityLayout.css' %}">
+    {% block custom_css %}{% endblock %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/lq.datetimepick.css' %}"/>
+    <script src="{% static 'js/jquery.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/jquery-migrate-1.2.1.min.js' %}" type="text/javascript"></script>
+</head>
+<body>
+<section class="headerwrap headerwrap2">
+    <header>
+		<div  class="header2 header">
+ 			<div class="top">
+				<div class="wp">
+					<div class="fl">
+                        <p>Phone: <b>3333333333</b></p>
+                    </div>
+                    {% if  request.user.is_authenticated %}
+                        <div class="personal">
+                            <dl class="user fr">
+                                <dd>{{ user.username }}<img class="down fr" src="/static/images/top_down.png"/></dd>
+                                <dt><img width="20" height="20" src="{{ MEDIA_URL }}{{ user.image }}"/></dt>
+                            </dl>
+                            <div class="userdetail">
+                                <dl>
+                                    <dt><img width="80" height="80" src="{{ MEDIA_URL }}{{ user.image }}"/></dt>
+                                    <dd>
+                                        <h2>{{ user.nickname }}</h2>
+                                        <p>{{ user.email }}</p>
+                                    </dd>
+                                </dl>
+                                <div class="btn">
+                                    <a class="personcenter fl" href="{% url 'user:info' %}">User Profile</a>
+                                    <a class="fr" href="/user/logout/">Logout</a>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="user_message.html">
+                            <div class="msg-num">20</div>
+                        </a>
+                    {% else %}
+                        <a style="color:white" class="fr registerbtn" href="{% url 'register' %}">Register</a>
+                        <a style="color:white" class="fr loginbtn" href="{% url 'login' %}">Login</a>
+                    {% endif %}
+				</div>
+			</div>
+            <div class="middle">
+                <div class="wp">
+                    <a href="{% url 'home' %}"><img class="fl" src="{% static 'images/logo2.png' %}"/></a>
+                    <h1>My Mydemy</h1>
+                </div>
+            </div>
+        </div>
+    </header>
+</section>
+
+<section><
+    {% block crumbs %}
+	<div class="wp">
+		<ul  class="crumbs">
+			<li><a href="/">Main</a>></li>
+            <li><a href="/">User</a>></li>
+            <li>User Information</li>
+		</ul>
+	</div>
+    {% endblock crumbs %}
+</section>
+
+<section>
+	<div class="wp list personal_list">
+	<div class="left">
+        <ul>
+            <li class="active2"><a href="{% url 'user:info' %}">Information</a></li>
+            <li ><a href="{% url 'home' %}">My Courses</a></li>
+            <li ><a href="{% url 'home' %}">My Favs</a></li>
+            <li >
+                <a href="{% url 'home' %}" style="position: relative;">Notifications</a>
+            </li>
+        </ul>
+	</div>
+    {% block right_content %}{% endblock %}
+	</div>
+</section>
+
+<section>
+    <ul class="sidebar">
+        <li class="qq">
+            <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=2023525077&site=qq&menu=yes"></a>
+        </li>
+        <li class="totop"></li>
+    </ul>
+</section>
+
+<div class="dialog" id="jsDialog">
+    {% block dialogs %}{% endblock %}
+</div>
+<div class="bg" id="dialogBg"></div>
+
+<script src="{% static 'js/selectUi.js' %}" type='text/javascript'></script>
+<script src="{% static 'js/plugins/laydate/laydate.js' %}" type="text/javascript"></script>
+<script src="{% static 'js/plugins/layer/layer.js' %}" type="text/javascript"></script>
+<script src="{% static 'js/plugins/queryCity/js/public.js' %}" type="text/javascript"></script>
+<script src="{% static 'js/unslider.js' %}" type="text/javascript"></script>
+<script src="{% static 'js/plugins/jquery.scrollLoading.js' %}"  type="text/javascript"></script>
+<script src="{% static 'js/validateDialog.js' %}"  type="text/javascript"></script>
+<script src="{% static 'js/deco-common.js' %}"  type="text/javascript"></script>
+<script src='{% static 'js/plugins/jquery.upload.js' %}' type='text/javascript'></script>
+<script src="{% static 'js/validate.js' %}" type="text/javascript"></script>
+<script src="{% static 'js/deco-user.js' %}" type="text/javascript"></script>
+{% block custom_js %}{% endblock %}
+</body>
+</html>

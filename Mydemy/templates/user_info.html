@@ -1,0 +1,144 @@
+{% extends 'user_base.html' %}
+
+{% load staticfiles %}
+
+{% block title %} User - {{ request.user.nickname }}{% endblock %}
+
+{% block crumbs %}
+	<div class="wp">
+		<ul  class="crumbs">
+			<li><a href="/">Main</a>></li>
+            <li><a href="/">User</a>></li>
+            <li>User Information</li>
+		</ul>
+	</div>
+{% endblock crumbs %}
+
+{% block right_content %}
+<div class="right">
+		<div class="personal_des ">
+			<div class="head" style="border:1px solid #eaeaea;">
+				<h1>User Information</h1>
+			</div>
+			<div class="inforcon">
+				<div class="left" style="width:242px;">
+                    <iframe id='frameFile' name='frameFile' style='display: none;'></iframe>
+                    <form class="clearfix" id="jsAvatarForm" enctype="multipart/form-data" autocomplete="off" method="post" action="{% url 'user:update_avatar' %}" target='frameFile'>
+                        <label class="changearea" for="avatarUp">
+                            <span id="avatardiv" class="pic">
+                                <img width="100" height="100" class="js-img-show" id="avatarShow" src="{{ MEDIA_URL }}{{ request.user.image }}"/>
+                            </span>
+                            <span class="fl upload-inp-box" style="margin-left:70px;">
+                                <span class="button btn-green btn-w100" id="jsAvatarBtn">Update Avatar</span>
+                                <input type="file" name="image" id="avatarUp" class="js-img-up"/>
+                            </span>
+                        </label>
+                        {% csrf_token %}
+                    </form>
+                    <div style="border-top:1px solid #eaeaea;margin-top:30px;">
+                        <a class="button btn-green btn-w100" id="jsUserResetPwd" style="margin:80px auto;width:100px;">Update Password</a>
+                    </div>
+				</div>
+				<form class="perinform" id="jsEditUserForm" autocomplete="off">
+					<ul class="right">
+						<li>Name:
+                           <input type="text" id="nick_name" name="nickname"  value="{{ request.user.nickname }}" maxlength="10">
+                            <i class="error-tips"></i>
+                        </li>
+						<li>Birthday:
+                           <input type="text" id="birth_day" name="birthday" value="{{ request.user.birthday }}" readonly="readonly"/>
+                            <i class="error-tips"></i>
+						</li>
+						<li>Gender:
+							<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <input type="radio"  name="sex" value="M" {% if request.user.sex == 'M' %}  checked="checked" {% endif %}>男
+                            </label>
+							<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <input type="radio" name="sex" value="F" {% if request.user.sex == 'F' %}  checked="checked" {% endif %}>女
+                            </label>
+						</li>
+						<li class="p_infor_city">Address:
+                            <input type="text" name="address" id="address" placeholder="Enter address" value="{{ request.user.address }}" maxlength="10">
+						    <i class="error-tips"></i>
+                        </li>
+						<li>Phone:
+                            <input type="text" name="mobile" id="mobile" placeholder="Enter mobile number" value="{{ request.user.mobile }}" maxlength="10">
+                        </li>
+                        <li>E-mail:
+                        	<input class="borderno" type="text" name="email" readonly="readonly" value="{{ request.user.email }}"/>
+                            <span class="green changeemai_btn">[Update]</span>
+                    	</li>
+						<li class="button heibtn">
+							<input type="button" id="jsEditUserBtn" value="Save">
+						</li>
+					</ul>
+                    {% csrf_token %}
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block dialogs %}
+    <div class="resetpwdbox dialogbox" id="jsResetDialog">
+        <h1>Change Password</h1>
+        <div class="close jsCloseDialog"><img src="{% static 'images/dig_close.png' %}"/></div>
+        <div class="cont">
+            <form id="jsResetPwdForm" autocomplete="off">
+                <div class="box">
+                    <span class="word2" >New</span>
+                    <input type="password" id="pwd" name="password1" placeholder="6-20 Characters"/>
+                </div>
+                <div class="box">
+                    <span class="word2" >Confrim</span>
+                    <input type="password" id="repwd" name="password2" placeholder="6-20 Characters"/>
+                </div>
+                <div class="error btns" id="jsResetPwdTips"></div>
+                <div class="button">
+                    <input id="jsResetPwdBtn" type="button" value="Update" />
+                </div>
+                {% csrf_token %}
+            </form>
+        </div>
+    </div>
+    <div class="successbox dialogbox" id="jsSuccessTips">
+        <h1>Submission Success</h1>
+        <div class="close jsCloseDialog"><img src="{% static 'images/dig_close.png' %}"/></div>
+        <div class="cont">
+            <h2>Your submission success!</h2>
+            <p></p>
+        </div>
+    </div>
+    <div class="bidtips dialogbox promptbox" id="jsComfirmDialig">
+        <h1>Confirm Submission</h1>
+        <div class="close jsCloseDialog"><img src="{% static 'images/dig_close.png' %}"/></div>
+        <div class="cont">
+            <h2>Could you confirm?</h2>
+            <dd class="autoTxtCount">
+                <div class="button">
+                    <input type="button" class="fl half-btn" value="Send" id="jsComfirmBtn"/>
+                    <span class="fr half-btn jsCloseDialog">Cancel</span>
+                </div>
+            </dd>
+        </div>
+    </div>
+    <div class="dialogbox changeemai1 changephone" id="jsChangeEmailDialog">
+        <h1>Change E-mail</h1>
+        <div class="close jsCloseDialog"><img src="{% static 'images/dig_close.png' %}"/></div>
+        <p>New E-mail Address</p>
+        <form id="jsChangeEmailForm" autocomplete="off">
+            <div class="box">
+                <input class="fl change_email" name="email" id="jsChangeEmail" type="text" placeholder="New E-mail Address">
+            </div>
+            <div class="box">
+                <input class="fl email_code" type="text" id="jsChangeEmailCode" name="code" placeholder="Verification Code">
+                <input class="getcode getting" type="button" id="jsChangeEmailCodeBtn" value="Get Code">
+            </div>
+            <div class="error btns change_email_tips" id="jsChangeEmailTips" >Enter...</div>
+            <div class="button">
+                <input class="changeemai_btn" id="jsChangeEmailBtn" type="button" value="Update"/>
+            </div>
+            {% csrf_token %}
+        </form>
+    </div>
+{% endblock %}

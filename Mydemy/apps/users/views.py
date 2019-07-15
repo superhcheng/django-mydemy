@@ -1,13 +1,17 @@
+import json
+
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.backends import ModelBackend
 from django.db.models import Q
+from django.http import HttpResponse
 from django.views.generic.base import View
 
 from .models import UserProfile, UserProfileVerification
-from .forms import LoginForm, RegisterForm, ForgetPwdForm, ResetPwdForm
+from .forms import LoginForm, RegisterForm, ForgetPwdForm, ResetPwdForm, UpdateAvatarForm, EmailForm, UpdateEmailForm, UpdateUserProfileForm
 from  utils.email_util import do_send_email
+from utils.mixin_util import LoginMixInView
 
 
 class CustomAuthBackend(ModelBackend):
@@ -129,3 +133,75 @@ class DoResetPwdView(View):
                 return render(request, 'forgetpwd_reset.html', {'error_msg' : 'Two passwords do not match'})
         else:
             return render(request, 'forgetpwd_reset.html', {'reset_pwd_form': reset_pwd_form})
+
+
+class UserInfoView(LoginMixInView, View):
+    def get(self, request):
+        return render(request, 'user_info.html')
+
+
+class UpdateUserAvatarView(LoginMixInView, View):
+    def post(self, request):
+        update_avatar_form = UpdateAvatarForm(request.POST, request.FILES, instance=request.user)
+        if update_avatar_form.is_valid():
+            update_avatar_form.save()
+            return HttpResponse('{"status": "success", "msg": "Avatar update success"}', content_type='application/json')
+        else:
+            return HttpResponse('{"status": "fail", "err_msg": "Avatar update fail"}', content_type='application/json')
+
+
+class UpdateUserPwdView(LoginMixInView, View):
+    def post(self, request):
+        reset_pwd_form = ResetPwdForm(request.POST)
+        if reset_pwd_form.is_valid():
+            pass1 = request.POST.get('password1', '')
+            pass2 = request.POST.get('password2', '')
+            if pass1 != pass2:
+                return HttpResponse('{"status": "fail", "err_msg": "Passwords do not match!"}',content_type='application/json')
+            else:
+                request.user.password = make_password(pass2)
+                request.user.save()
+                return HttpResponse('{"status": "success", "msg": "Passwords updated"}',content_type='application/json')
+        else:
+            return HttpResponse(json.dumps(reset_pwd_form.errors), content_type='application/json')
+
+
+class UpdateUserEmailGetVCView(LoginMixInView, View):
+    def post(self, request):
+        email_form = EmailForm(request.POST)
+        if email_form.is_valid():
+            email = email_form.cleaned_data.get('email')
+            if UserProfile.objects.filter(email=email):
+                return HttpResponse('{"status": "fail", "err_msg": "You cannot use this E-mail address."}',content_type='application/json')
+            do_send_email(email, 'change_email')
+            return HttpResponse('{"status": "success", "msg": "Verification code sent."}', content_type='application/json')
+        else:
+            return HttpResponse(json.dumps(email_form.errors), content_type='application/json')
+
+
+class UpdateUserEmailView(LoginMixInView, View):
+    def post(self, request):
+        update_email_from = UpdateEmailForm(request.POST)
+        if update_email_from.is_valid():
+            code = update_email_from.cleaned_data.get('code', '')
+            email = update_email_from.cleaned_data.get('email', '')
+            user_verification = UserProfileVerification.objects.filter(code=code, email=email)
+            if user_verification:
+                request.user.email = email
+                user_verification.delete()
+                request.user.save()
+                return HttpResponse('{"status": "success", "msg": "Verification code sent."}', content_type='application/json')
+            else:
+                return HttpResponse('{"status": "fail", "err_msg": "Invalid verification code or E-mail"}', content_type='application/json')
+        else:
+            return HttpResponse(json.dumps(update_email_from.errors), content_type='application/json')
+
+
+class UpdateUserProfileView(LoginMixInView, View):
+    def post(self, request):
+        user_profile_form = UpdateUserProfileForm(request.POST, instance=request.user)
+        if user_profile_form.is_valid():
+            user_profile_form.save()
+            return HttpResponse('{"status": "success", "msg": "User profile updated"}', content_type='application/json')
+        else:
+            return HttpResponse(json.dumps(user_profile_form.errors), content_type='application/json')

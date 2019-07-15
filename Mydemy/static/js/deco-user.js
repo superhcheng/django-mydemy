@@ -1,4 +1,3 @@
-//修改个人中心邮箱验证码
 function sendCodeChangeEmail($btn){
     var verify = verifyDialogSubmit(
         [
@@ -10,33 +9,32 @@ function sendCodeChangeEmail($btn){
     }
     $.ajax({
         cache: false,
-        type: "get",
+        type: "POST",
         dataType:'json',
-        url:"/users/sendemail_code/",
+        url:"/user/update_email_vc/",
         data:$('#jsChangeEmailForm').serialize(),
         async: true,
         beforeSend:function(XMLHttpRequest){
-            $btn.val("发送中...");
+            $btn.val("Send...");
             $btn.attr('disabled',true);
         },
         success: function(data){
             if(data.email){
                 Dml.fun.showValidateError($('#jsChangeEmail'), data.email);
             }else if(data.status == 'success'){
-                Dml.fun.showErrorTips($('#jsChangeEmailTips'), "邮箱验证码已发送");
-            }else if(data.status == 'failure'){
-                 Dml.fun.showValidateError($('#jsChangeEmail'), "邮箱验证码发送失败");
-            }else if(data.status == 'success'){
+                Dml.fun.showErrorTips($('#jsChangeEmailTips'), "Verification code sent");
+            }else if(data.status == 'fail'){
+                 Dml.fun.showValidateError($('#jsChangeEmail'), data.err_msg);
             }
         },
         complete: function(XMLHttpRequest){
-            $btn.val("获取验证码");
+            $btn.val("Get Verification Code");
             $btn.removeAttr("disabled");
         }
     });
 
 }
-//个人资料邮箱修改
+
 function changeEmailSubmit($btn){
 var verify = verifyDialogSubmit(
         [
@@ -48,35 +46,34 @@ var verify = verifyDialogSubmit(
     }
     $.ajax({
         cache: false,
-        type: 'post',
+        type: 'POST',
         dataType:'json',
-        url:"/users/update_email/ ",
+        url:"/user/update_email/ ",
         data:$('#jsChangeEmailForm').serialize(),
         async: true,
         beforeSend:function(XMLHttpRequest){
-            $btn.val("发送中...");
+            $btn.val("Sending...");
             $btn.attr('disabled',true);
-            $("#jsChangeEmailTips").html("验证中...").show(500);
+            $("#jsChangeEmailTips").html("Checking").show(500);
         },
         success: function(data) {
             if(data.email){
                 Dml.fun.showValidateError($('#jsChangeEmail'), data.email);
             }else if(data.status == "success"){
-                Dml.fun.showErrorTips($('#jsChangePhoneTips'), "邮箱信息更新成功");
+                Dml.fun.showErrorTips($('#jsChangePhoneTips'), "E-mail updated.");
                 setTimeout(function(){location.reload();},1000);
             }else{
-                 Dml.fun.showValidateError($('#jsChangeEmail'), "邮箱信息更新失败");
+                 Dml.fun.showValidateError($('#jsChangeEmail'), data.err_msg);
             }
         },
         complete: function(XMLHttpRequest){
-            $btn.val("完成");
+            $btn.val("Done");
             $btn.removeAttr("disabled");
         }
     });
 }
 
 $(function(){
-    //个人资料修改密码
     $('#jsUserResetPwd').on('click', function(){
         Dml.fun.showDialog('#jsResetDialog', '#jsResetPwdTips');
     });
@@ -86,23 +83,24 @@ $(function(){
             cache: false,
             type: "POST",
             dataType:'json',
-            url:"/users/update/pwd/",
+            url:"/user/update_pwd/",
             data:$('#jsResetPwdForm').serialize(),
             async: true,
             success: function(data) {
+
                 if(data.password1){
                     Dml.fun.showValidateError($("#pwd"), data.password1);
                 }else if(data.password2){
                     Dml.fun.showValidateError($("#repwd"), data.password2);
                 }else if(data.status == "success"){
                     Dml.fun.showTipsDialog({
-                        title:'提交成功',
-                        h2:'修改密码成功，请重新登录!',
+                        title:'Submission Success',
+                        h2:'Passowrd updated, please login',
                     });
                     Dml.fun.winReload();
-                }else if(data.msg){
-                    Dml.fun.showValidateError($("#pwd"), data.msg);
-                    Dml.fun.showValidateError($("#repwd"), data.msg);
+                }else if(data.err_msg){
+                    Dml.fun.showValidateError($("#pwd"), data.err_msg);
+                    Dml.fun.showValidateError($("#repwd"), data.err_msg);
                 }
             }
         });
@@ -158,41 +156,41 @@ $(function(){
         }
         $.ajax({
             cache: false,
-            type: 'post',
+            type: 'POST',
             dataType:'json',
-            url:"/users/info/",
+            url:"/user/update_user/",
             data:$jsEditUserForm.serialize(),
             async: true,
             beforeSend:function(XMLHttpRequest){
-                _self.val("保存中...");
+                _self.val("Saving...");
                 _self.attr('disabled',true);
             },
             success: function(data) {
-                if(data.nick_name){
+                if(data.nickname){
                     _showValidateError($('#nick_name'), data.nick_name);
-                }else if(data.birday){
+                }else if(data.birthday){
                    _showValidateError($('#birth_day'), data.birday);
                 }else if(data.address){
                    _showValidateError($('#address'), data.address);
                 }else if(data.status == "failure"){
                      Dml.fun.showTipsDialog({
-                        title: '保存失败',
+                        title: 'Save failed',
                         h2: data.msg
                     });
                 }else if(data.status == "success"){
                     Dml.fun.showTipsDialog({
-                        title: '保存成功',
-                        h2: '个人信息修改成功！'
+                        title: 'Saved',
+                        h2: 'User profile updated'
                     });
-                    setTimeout(function(){window.location.href = window.location.href;},1500);
+                    setTimeout(function(){
+                            window.location.href = window.location.href;
+                        },1500);
                 }
             },
             complete: function(XMLHttpRequest){
-                _self.val("保存");
+                _self.val("Save");
                 _self.removeAttr("disabled");
             }
         });
     });
-
-
 });

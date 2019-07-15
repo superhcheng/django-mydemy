@@ -35,5 +35,6 @@ urlpatterns = [
     url(r'^do_resetpwd/$', DoResetPwdView.as_view(), name='do_reset_pwd'),
     url(r'^org/', include('organizations.urls', namespace='org')),
     url(r'^course/', include('courses.urls', namespace='course')),
+    url(r'^user/', include('users.urls', namespace='user')),
     url(r'^media/(?P<path>.*)/$', serve, {'document_root': MEDIA_ROOT}),
 ]

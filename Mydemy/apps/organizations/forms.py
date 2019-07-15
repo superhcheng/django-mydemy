@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 import re
 
-from django.forms import ModelForm
-from django.forms import forms
+from django.forms import forms, ModelForm
 
 from operations.models import UserQuestion
 
