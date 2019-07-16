@@ -9,6 +9,9 @@ from django.http import HttpResponse
 from django.views.generic.base import View
 
 from .models import UserProfile, UserProfileVerification
+from courses.models import Course
+from courses.models import Instructor
+from operations.models import UserFavorite
 from .forms import LoginForm, RegisterForm, ForgetPwdForm, ResetPwdForm, UpdateAvatarForm, EmailForm, UpdateEmailForm, UpdateUserProfileForm
 from  utils.email_util import do_send_email
 from utils.mixin_util import LoginMixInView
@@ -205,3 +208,26 @@ class UpdateUserProfileView(LoginMixInView, View):
             return HttpResponse('{"status": "success", "msg": "User profile updated"}', content_type='application/json')
         else:
             return HttpResponse(json.dumps(user_profile_form.errors), content_type='application/json')
+
+
+class UserFavCourseView(LoginMixInView, View):
+    def get(self, request):
+        user_fav_courses = UserFavorite.objects.filter(user=request.user, fav_type=2)
+        course_ids = [user_fav_course.fav_id for user_fav_course in user_fav_courses]
+        return render(request, 'user_fav_course.html', {
+            'courses': Course.objects.filter(id__in=course_ids),
+        })
+
+
+class UserFavInsView(LoginMixInView, View):
+    def get(self, request):
+        user_fav_instructors = UserFavorite.objects.filter(user=request.user, fav_type=1)
+        ins_ids = [user_fav_instructor.fav_id for user_fav_instructor in user_fav_instructors]
+        return render(request, 'user_fav_instructor.html', {
+            'instructors': Instructor.objects.filter(id__in=ins_ids),
+        })
+
+
+class UserFavOrgView(LoginMixInView, View):
+    def get(self, request):
+        return render(request, 'user_fav_org.html')

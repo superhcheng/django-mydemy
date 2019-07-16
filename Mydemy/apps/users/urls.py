@@ -15,8 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import url
 
-from users.views import UserInfoView, UpdateUserPwdView, UpdateUserEmailView, \
-    UpdateUserAvatarView, UpdateUserEmailGetVCView, UpdateUserProfileView
+from users.views import UserInfoView, UpdateUserPwdView, UpdateUserEmailView,UpdateUserAvatarView, \
+    UpdateUserEmailGetVCView, UpdateUserProfileView, UserFavCourseView, UserFavInsView, UserFavOrgView
 
 
 urlpatterns = [
@@ -26,4 +26,7 @@ urlpatterns = [
     url(r'^update_email_vc/$', UpdateUserEmailGetVCView.as_view(), name='update_email_vc'),
     url(r'^update_email/$', UpdateUserEmailView.as_view(), name='update_email'),
     url(r'^update_user/$', UpdateUserProfileView.as_view(), name='update_user'),
+    url(r'^fav_course/$', UserFavCourseView.as_view(), name='fav_course'),
+    url(r'^fav_ins/$', UserFavInsView.as_view(), name='fav_ins'),
+    url(r'^fav_org/$', UserFavOrgView.as_view(), name='fav_org'),
 ]
