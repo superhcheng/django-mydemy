@@ -103,19 +103,35 @@
 <div class="dialog" id="jsDialog">
     {% block dialogs %}{% endblock %}
 </div>
-<div class="bg" id="dialogBg"></div>
-
-<script src="{% static 'js/selectUi.js' %}" type='text/javascript'></script>
-<script src="{% static 'js/plugins/laydate/laydate.js' %}" type="text/javascript"></script>
-<script src="{% static 'js/plugins/layer/layer.js' %}" type="text/javascript"></script>
-<script src="{% static 'js/plugins/queryCity/js/public.js' %}" type="text/javascript"></script>
-<script src="{% static 'js/unslider.js' %}" type="text/javascript"></script>
-<script src="{% static 'js/plugins/jquery.scrollLoading.js' %}"  type="text/javascript"></script>
-<script src="{% static 'js/validateDialog.js' %}"  type="text/javascript"></script>
-<script src="{% static 'js/deco-common.js' %}"  type="text/javascript"></script>
-<script src='{% static 'js/plugins/jquery.upload.js' %}' type='text/javascript'></script>
-<script src="{% static 'js/validate.js' %}" type="text/javascript"></script>
-<script src="{% static 'js/deco-user.js' %}" type="text/javascript"></script>
 {% block custom_js %}{% endblock %}
+<script type="text/javascript">
+        function add_fav(current_elem, fav_id, fav_type, url, csrf_token) {
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: url,
+                data: {'fav_id': fav_id, 'fav_type': fav_type},
+                async: true,
+                beforeSend: function (xhr, settings) {
+                    xhr.setRequestHeader("X-CSRFToken", csrf_token);
+                },
+                success: function (data) {
+                    if (data.status == 'fail') {
+                        if (data.msg == 'Login Required') {
+                            window.location.href = "{% url 'login' %}";
+                        } else {
+                            alert(data.msg)
+                        }
+                    } else if (data.status == 'success') {
+                        setTimeout(function(){
+                            window.location.href = window.location.href;
+                        },1000);
+                    }
+                }
+            });
+        }
+</script>
+
+
 </body>
 </html>

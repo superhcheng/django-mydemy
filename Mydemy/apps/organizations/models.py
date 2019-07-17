@@ -60,5 +60,9 @@ class Instructor(models.Model):
         verbose_name = 'Instructor'
         verbose_name_plural = 'Instructors'
 
+    def get_course_count(self):
+        from courses.models import Course
+        return Course.objects.filter(instructor=self).count()
+
     def __unicode__(self):
         return self.name

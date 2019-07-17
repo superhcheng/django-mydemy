@@ -10,10 +10,10 @@ from django.views.generic.base import View
 
 from .models import UserProfile, UserProfileVerification
 from courses.models import Course
-from courses.models import Instructor
+from organizations.models import CourseOrg, Instructor
 from operations.models import UserFavorite
 from .forms import LoginForm, RegisterForm, ForgetPwdForm, ResetPwdForm, UpdateAvatarForm, EmailForm, UpdateEmailForm, UpdateUserProfileForm
-from  utils.email_util import do_send_email
+from utils.email_util import do_send_email
 from utils.mixin_util import LoginMixInView
 
 
@@ -230,4 +230,8 @@ class UserFavInsView(LoginMixInView, View):
 
 class UserFavOrgView(LoginMixInView, View):
     def get(self, request):
-        return render(request, 'user_fav_org.html')
+        user_fav_orgs = UserFavorite.objects.filter(user=request.user, fav_type=3)
+        org_ids = [org.fav_id for org in user_fav_orgs ]
+        return render(request, 'user_fav_org.html', {
+            'orgs': CourseOrg.objects.filter(id__in=org_ids)
+        })

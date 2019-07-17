@@ -46,18 +46,26 @@
                                 </h1>
                                 <ul class="cont clearfix">
                                     <li class="time">Years of Experience: <span>{{ instructor.work_year }}</span></li>
-                                    <li class="c7">???<span>2</span></li>
+                                    <li class="c7">Courses: <span>{{ instructor.get_course_count }}</span></li>
                                 </ul>
                                 <ul class="cont clearfix">
                                     <li class="time">Company: <span>{{ instructor.curr_company }}</span></li>
                                     <li class="c7">Position: <span>{{ instructor.curr_title }}</span></li>
                                 </ul>
                             </dd>
-                            <div class="delete jsDeleteFav" data-favid="10"></div>
+                            <div class="delete jsDeleteFav" fav-id="{{ instructor.id }}"></div>
                         </dl>
                     </div>
                     {% endfor%}
                 </div>
             </div>
         </div>
+{% endblock %}
+
+{% block custom_js %}
+    <script type="text/javascript">
+        $('.jsDeleteFav').on('click', function () {
+            add_fav($(this), $( this ).attr( "fav-id" ), 1, "{% url 'org:org_fav' %}", "{{ csrf_token }}");
+        });
+    </script>
 {% endblock %}

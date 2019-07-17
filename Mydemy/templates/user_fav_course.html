@@ -43,7 +43,7 @@
                                 </div>
                                 <div class="bottom">
                                     <span class="fl">{{ course.org.name }}</span>
-                                    <span class="delete-group fr jsDeleteFav" data-favid="13"></span>
+                                    <span class="delete-group fr jsDeleteFav" fav-id="{{ course.id }}"></span>
                                 </div>
                             </div>
                         {% endfor %}
@@ -51,4 +51,12 @@
                 </div>
             </div>
         </div>
+{% endblock %}
+
+{% block custom_js %}
+    <script type="text/javascript">
+        $('.jsDeleteFav').on('click', function () {
+            add_fav($(this), $( this ).attr( "fav-id" ), 2, "{% url 'org:org_fav' %}", "{{ csrf_token }}");
+        });
+    </script>
 {% endblock %}
