@@ -42,7 +42,6 @@
                                         <img width="1200" height="478" class="scrollLoading" data-url="/static/images/57a801860001c34b12000460.jpg" src="/static/images/pixel.gif" />
                                     </a>
                                 </li>
-
 						</ul>
 					</div>
 					<div class="unslider-arrow prev"></div>
@@ -68,38 +67,11 @@
 					<div class="bottom">
 						<h1>最新课程<a class="more" href="article-list.html">更多></a> </h1>
 						<ul>
-                                <li><a href="/knowledge/detail/3/">django中如何实现多数据库配置</a></li>
-                                <li><a href="/knowledge/detail/2/">python逐渐成为高校首选课程</a></li>
+                            <li><a href="/knowledge/detail/3/">django中如何实现多数据库配置</a></li>
+                            <li><a href="/knowledge/detail/2/">python逐渐成为高校首选课程</a></li>
 						</ul>
 					</div>
 				</div>
-				<!--<div class="fr">-->
-					<!--<div class="top">-->
-						<!--<ul class="sec_topr_tab">-->
-                            <!--<li class="sec_top_li on" data-type="1"><a href="javascript:;">课程咨询</a></li>-->
-                            <!--<li class="sec_top_li" data-type="2"><a href="javascript:;">教师咨询</a></li>-->
-                        <!--</ul>-->
-                        <!--<i class="index_ico_arrow"></i>-->
-                        <!--<p class="sec_top_p" id="secTips">留下联系方式，快速获取信息</p>-->
-						<!--<form id="jsDemandForm">-->
-                            <!--<input type="hidden" id="jsWantType" name="want_type" value="1">-->
-                            <!--<input class="icon1" id="name" name="name" type="text" placeholder="请输入姓名"/>-->
-							<!--<input class="icon2" id="mobile" name="mobile" type="text" placeholder="请输入手机号码"/>-->
-                            <!--<input class="icon2" id="mobile" name="mobile" type="text" placeholder="请输入课程"/>-->
-                            <!--<p class="demand_form_tips" id="jsDemandTips"></p>-->
-							<!--<input class="submit demand_form_btn" id="jsDemandBtn" type="button" value="点击提交" />-->
-                            <!--<input type='hidden' name='csrfmiddlewaretoken' value='mymQDzHWl2REXIfPMg2mJaLqDfaS1sD5' />-->
-						<!--</form>-->
-					<!--</div>-->
-					<!--<div class="bottom">-->
-						<!--<h1>最新文章<a class="more" href="article-list.html">更多></a> </h1>-->
-						<!--<ul>-->
-                                <!--<li><a href="/knowledge/detail/3/">django中如何实现多数据库配置</a></li>-->
-                                <!--<li><a href="/knowledge/detail/2/">python逐渐成为高校首选课程</a></li>-->
-						<!--</ul>-->
-					<!--</div>-->
-				<!--</div>-->
-
 			</div>
 		</div>
 	<section>
@@ -127,143 +99,46 @@
 	<section>
 		<div class="module">
 			<div class="wp">
-				<h1>公开课程</h1>
+				<h1>Courses</h1>
 				<div class="module1 eachmod">
 					<div class="module1_1 left">
 						<img width="228" height="614" src="/static/images/module1_1.jpg"/>
-						<p class="fisrt_word">名师授课<br/>专业权威</p>
-						<a class="more" href="course_list.html">查看更多课程 ></a>
+						<a class="more" href="{% url 'course:list' %}">More></a>
 					</div>
 					<div class="right group_list">
 						<div class="module1_2 box">
 							<div class="imgslide2">
 								<ul class="imgs">
-
+                                    {% for course in on_sale_courses %}
                                         <li>
-                                            <a href="/group/groupdetail/2/">
-                                                <img width="470" height="300" class="scrollLoading" data-url="/static/images/sass.jpg" src="/static/images/pixel.gif" />
+                                            <a href="{% url 'course:overview' course.id %}">
+                                                <img width="470" height="300" class="scrollLoading" src="{{ MEDIA_URL }}{{ course.image }}" />
                                             </a>
                                         </li>
-
-                                        <li>
-                                            <a href="/group/groupdetail/3/">
-                                                <img width="470" height="300" class="scrollLoading" data-url="/static/images/sass.jpg" src="/static/images/pixel.gif" />
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <a href="/group/groupdetail/11/">
-                                                <img width="470" height="300" class="scrollLoading" data-url="/static/images/sass.jpg" src="/static/images/pixel.gif" />
-                                            </a>
-                                        </li>
-
+                                    {% endfor %}
 								</ul>
 							</div>
 							<div class="unslider-arrow2 prev"></div>
 							<div class="unslider-arrow2 next"></div>
 						</div>
-
-                            <div class="module1_3 box">
-                                <a href="/group/groupdetail/15/">
-                                    <img width="233" height="190" class="scrollLoading" data-url="/static/images/mysql.jpg" src="/static/images/pixel.gif"/>
-                                </a>
-                                <div class="des">
-                                    <a href="/group/groupdetail/15/">
-                                        <h2 title="python web开发">python web开发</h2>
+                            {% for course in courses %}
+                                <div class="module1_{{ forloop.counter0 | add:3 }} box">
+                                    <a href="{% url 'course:overview' course.id %}">
+                                        <img width="233" height="190" class="scrollLoading" src="{{ MEDIA_URL }}{{ course.image }}"/>
                                     </a>
-                                    <span class="fl">定金：<i class="key">￥1</i></span>
-                                    <span class="fr">已团：1</span>
+                                    <div class="des">
+                                        <a href="{% url 'course:overview' course.id %}">
+                                            <h2 title="{{ course.name }}">{{ course.name }}</h2>
+                                        </a>
+                                        <span class="fl">Difficulty: <i class="key">{{ course.difficulty }}</i></span>
+                                        <span class="fr">Students: {{ course.student_count }}</span>
+                                    </div>
+                                    <div class="bottom">
+                                        <span class="fl" title="{{ course.org.name }}">{{ course.org.name }}</span>
+                                        <span class="star fr">{{ course.fav_count }}</span>
+                                    </div>
                                 </div>
-                                <div class="bottom">
-                                    <span class="fl" title="清华大学">清华大学</span>
-                                    <span class="star fr">0</span>
-                                </div>
-                            </div>
-
-                            <div class="module1_4 box">
-                                <a href="/group/groupdetail/14/">
-                                    <img width="233" height="190" class="scrollLoading" data-url="/static/images/mysql.jpg" src="/static/images/pixel.gif"/>
-                                </a>
-                                <div class="des">
-                                    <a href="/group/groupdetail/14/">
-                                        <h2 title="java web开发">java web开发</h2>
-                                    </a>
-                                    <span class="fl">定金：<i class="key">￥0</i></span>
-                                    <span class="fr">已团：1</span>
-                                </div>
-                                <div class="bottom">
-                                    <span class="fl" title="慕课网">慕课网</span>
-                                    <span class="star fr">0</span>
-                                </div>
-                            </div>
-
-                            <div class="module1_5 box">
-                                <a href="/group/groupdetail/13/">
-                                    <img width="233" height="190" class="scrollLoading" data-url="/static/images/mysql.jpg" src="/static/images/pixel.gif"/>
-                                </a>
-                                <div class="des">
-                                    <a href="/group/groupdetail/13/">
-                                        <h2 title="前端开发">前端开发</h2>
-                                    </a>
-                                    <span class="fl">定金：<i class="key">￥0</i></span>
-                                    <span class="fr">已团：4</span>
-                                </div>
-                                <div class="bottom">
-                                    <span class="fl" title="创品空间装饰">清华大学</span>
-                                    <span class="star fr">0</span>
-                                </div>
-                            </div>
-
-                            <div class="module1_6 box">
-                                <a href="/group/groupdetail/9/">
-                                    <img width="233" height="190" class="scrollLoading" data-url="/static/images/mysql.jpg" src="/static/images/pixel.gif"/>
-                                </a>
-                                <div class="des">
-                                    <a href="/group/groupdetail/9/">
-                                        <h2 title="nodejs入门">nodejs入门</h2>
-                                    </a>
-                                    <span class="fl">定金：<i class="key">￥0</i></span>
-                                    <span class="fr">已团：12</span>
-                                </div>
-                                <div class="bottom">
-                                    <span class="fl" title="清华大学">清华大学</span>
-                                    <span class="star fr">1</span>
-                                </div>
-                            </div>
-
-                            <div class="module1_7 box">
-                                <a href="/group/groupdetail/5/">
-                                    <img width="233" height="190" class="scrollLoading" data-url="/static/images/mysql.jpg" src="/static/images/pixel.gif"/>
-                                </a>
-                                <div class="des">
-                                    <a href="/group/groupdetail/5/">
-                                        <h2 title="爬虫开发">爬虫开发</h2>
-                                    </a>
-                                    <span class="fl">定金：<i class="key">￥2000</i></span>
-                                    <span class="fr">已团：0</span>
-                                </div>
-                                <div class="bottom">
-                                    <span class="fl" title="清华大学">清华大学</span>
-                                    <span class="star fr">0</span>
-                                </div>
-                            </div>
-
-                            <div class="module1_8 box">
-                                <a href="/group/groupdetail/6/">
-                                    <img width="233" height="190" class="scrollLoading" data-url="/static/images/mysql.jpg" src="/static/images/pixel.gif"/>
-                                </a>
-                                <div class="des">
-                                    <a href="/group/groupdetail/6/">
-                                        <h2 title="android开发">android开发</h2>
-                                    </a>
-                                    <span class="fl">定金：<i class="key">￥50</i></span>
-                                    <span class="fr">已团：0</span>
-                                </div>
-                                <div class="bottom">
-                                    <span class="fl" title="清华大学">清华大学</span>
-                                    <span class="star fr">0</span>
-                                </div>
-                            </div>
+                            {% endfor %}
 					</div>
 				</div>
 			</div>
@@ -276,235 +151,20 @@
 				<div class="module3 eachmod">
 					<div class="module3_1 left">
 						<img width="228" height="463" src="/static/images/module3_1.jpg"/>
-						<p class="fisrt_word">Top-rated<br/>Organizaiton/individual</p>
-						<a class="more" href="{% url 'org:list' %}">View more organization ></a>
+						<a class="more" href="{% url 'org:list' %}">More></a>
 					</div>
 					<div class="right">
 						<ul>
-                                <li >
-                                    <a href="/company/1/">
+                            {% for org in orgs %}
+                                <li class="{% if forloop.counter|divisibleby:5 %}five{% endif %}">
+                                    <a href="{% url 'org:org_overview' org.id %}">
                                         <div class="company">
-                                            <img width="184" height="100" class="scrollLoading" data-url="/static/images/qhdx.jpg" src="/static/images/pixel.gif"/>
-                                            <div class="score">
-                                                <div class="circle">
-                                                    <h2>5.0</h2>
-                                                    <p>评分</p>
-                                                </div>
-                                            </div>
+                                            <img width="184" height="100" class="scrollLoading" src="{{ MEDIA_URL }}{{ org.image }}"/>
                                         </div>
-                                        <p><span class="key" title="清华大学">清华大学</span></p>
+                                        <p><span class="key" title="{{ org.name }}">{{ org.name }}</span></p>
                                     </a>
                                 </li>
-
-                                <li >
-                                    <a href="/company/7/">
-                                        <div class="company">
-                                            <img width="184" height="100" class="scrollLoading" data-url="/static/images/qhdx.jpg" src="/static/images/pixel.gif"/>
-                                            <div class="score">
-                                                <div class="circle">
-                                                    <h2>5.0</h2>
-                                                    <p>评分</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p><span class="key" title="慕课网">慕课网</span></p>
-                                    </a>
-                                </li>
-
-                                <li >
-                                    <a href="/company/8/">
-                                        <div class="company">
-                                            <img width="184" height="100" class="scrollLoading" data-url="/static/images/qhdx.jpg" src="/static/images/pixel.gif"/>
-                                            <div class="score">
-                                                <div class="circle">
-                                                    <h2>5.0</h2>
-                                                    <p>评分</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p><span class="key" title="北京大学">北京大学</span></p>
-                                    </a>
-                                </li>
-
-                                <li >
-                                    <a href="/company/19/">
-                                        <div class="company">
-                                            <img width="184" height="100" class="scrollLoading" data-url="/static/images/qhdx.jpg" src="/static/images/pixel.gif"/>
-                                            <div class="score">
-                                                <div class="circle">
-                                                    <h2>5.0</h2>
-                                                    <p>评分</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p><span class="key" title="北京大学">北京大学</span></p>
-                                    </a>
-                                </li>
-
-                                <li  class="five">
-                                    <a href="/company/22/">
-                                        <div class="company">
-                                            <img width="184" height="100" class="scrollLoading" data-url="/static/images/qhdx.jpg" src="/static/images/pixel.gif"/>
-                                            <div class="score">
-                                                <div class="circle">
-                                                    <h2>5.0</h2>
-                                                    <p>评分</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p><span class="key" title="北京大学">北京大学</span></p>
-                                    </a>
-                                </li>
-
-                                <li >
-                                    <a href="/company/18/">
-                                        <div class="company">
-                                            <img width="184" height="100" class="scrollLoading" data-url="/static/images/qhdx.jpg" src="/static/images/pixel.gif"/>
-                                            <div class="score">
-                                                <div class="circle">
-                                                    <h2>5.0</h2>
-                                                    <p>评分</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p><span class="key" title="北京大学">北京大学</span></p>
-                                    </a>
-                                </li>
-
-                                <li >
-                                    <a href="/company/3/">
-                                        <div class="company">
-                                            <img width="184" height="100" class="scrollLoading" data-url="/static/images/qhdx.jpg" src="/static/images/pixel.gif"/>
-                                            <div class="score">
-                                                <div class="circle">
-                                                    <h2>5.0</h2>
-                                                    <p>评分</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p><span class="key" title="北京大学">北京大学</span></p>
-                                    </a>
-                                </li>
-
-                                <li >
-                                    <a href="/company/4/">
-                                        <div class="company">
-                                            <img width="184" height="100" class="scrollLoading" data-url="/static/images/qhdx.jpg" src="/static/images/pixel.gif"/>
-                                            <div class="score">
-                                                <div class="circle">
-                                                    <h2>5.0</h2>
-                                                    <p>评分</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p><span class="key" title="北京大学">北京大学</span></p>
-                                    </a>
-                                </li>
-
-                                <li >
-                                    <a href="/company/13/">
-                                        <div class="company">
-                                            <img width="184" height="100" class="scrollLoading" data-url="/static/images/qhdx.jpg" src="/static/images/pixel.gif"/>
-                                            <div class="score">
-                                                <div class="circle">
-                                                    <h2>5.0</h2>
-                                                    <p>评分</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p><span class="key" title="北京大学">北京大学</span></p>
-                                    </a>
-                                </li>
-
-                                <li  class="five">
-                                    <a href="/company/12/">
-                                        <div class="company">
-                                            <img width="184" height="100" class="scrollLoading" data-url="/static/images/qhdx.jpg" src="/static/images/pixel.gif"/>
-                                            <div class="score">
-                                                <div class="circle">
-                                                    <h2>5.0</h2>
-                                                    <p>评分</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p><span class="key" title="北京大学">北京大学</span></p>
-                                    </a>
-                                </li>
-
-                                <li >
-                                    <a href="/company/15/">
-                                        <div class="company">
-                                            <img width="184" height="100" class="scrollLoading" data-url="/static/images/qhdx.jpg" src="/static/images/pixel.gif"/>
-                                            <div class="score">
-                                                <div class="circle">
-                                                    <h2>5.0</h2>
-                                                    <p>评分</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p><span class="key" title="北京大学">北京大学</span></p>
-                                    </a>
-                                </li>
-
-                                <li >
-                                    <a href="/company/11/">
-                                        <div class="company">
-                                            <img width="184" height="100" class="scrollLoading" data-url="/static/images/bjdx.jpg" src="/static/images/pixel.gif"/>
-                                            <div class="score">
-                                                <div class="circle">
-                                                    <h2>5.0</h2>
-                                                    <p>评分</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p><span class="key" title="北京大学">北京大学</span></p>
-                                    </a>
-                                </li>
-
-                                <li >
-                                    <a href="/company/9/">
-                                        <div class="company">
-                                            <img width="184" height="100" class="scrollLoading" data-url="/static/images/njdx.jpg" src="/static/images/pixel.gif"/>
-                                            <div class="score">
-                                                <div class="circle">
-                                                    <h2>5.0</h2>
-                                                    <p>评分</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p><span class="key" title="北京大学">南京大学</span></p>
-                                    </a>
-                                </li>
-
-                                <li >
-                                    <a href="/company/6/">
-                                        <div class="company">
-                                            <img width="184" height="100" class="scrollLoading" data-url="/static/images/qhdx.jpg" src="/static/images/pixel.gif"/>
-                                            <div class="score">
-                                                <div class="circle">
-                                                    <h2>5.0</h2>
-                                                    <p>评分</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p><span class="key" title="北京大学">北京大学</span></p>
-                                    </a>
-                                </li>
-
-                                <li  class="five">
-                                    <a href="/company/5/">
-                                        <div class="company">
-                                            <img width="184" height="100" class="scrollLoading" data-url="/static/images/qhdx.jpg" src="/static/images/pixel.gif"/>
-                                            <div class="score">
-                                                <div class="circle">
-                                                    <h2>5.0</h2>
-                                                    <p>评分</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p><span class="key" title="北京大学">北京大学</span></p>
-                                    </a>
-                                </li>
+                            {% endfor %}
 						</ul>
 					</div>
 				</div>

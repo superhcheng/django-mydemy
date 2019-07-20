@@ -10,10 +10,8 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'css/animate.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'js/plugins/queryCity/css/cityLayout.css' %}">
-    {% block custom_css %}{% endblock %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/lq.datetimepick.css' %}"/>
-    <script src="{% static 'js/jquery.min.js' %}" type="text/javascript"></script>
-    <script src="{% static 'js/jquery-migrate-1.2.1.min.js' %}" type="text/javascript"></script>
+    {% block custom_css %}{% endblock %}
 </head>
 <body>
 <section class="headerwrap headerwrap2">
@@ -40,11 +38,11 @@
                                 </dl>
                                 <div class="btn">
                                     <a class="personcenter fl" href="{% url 'user:info' %}">User Profile</a>
-                                    <a class="fr" href="/user/logout/">Logout</a>
+                                    <a class="fr" href="{% url 'logout' %}">Logout</a>
                                 </div>
                             </div>
                         </div>
-                        <a href="user_notification.html">
+                        <a href="{% url 'user:user_notification' %}">
                             <div class="msg-num">{{ user.get_notification_count }}</div>
                         </a>
                     {% else %}
@@ -101,7 +99,17 @@
 <div class="dialog" id="jsDialog">
     {% block dialogs %}{% endblock %}
 </div>
-{% block custom_js %}{% endblock %}
+<script src="{% static 'js/jquery.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'js/jquery-migrate-1.2.1.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'js/selectUi.js' %}" type='text/javascript'></script>
+<script src="{% static 'js/plugins/laydate/laydate.js' %}" type="text/javascript" ></script>
+<script src="{% static 'js/plugins/queryCity/js/public.js' %}" type="text/javascript"></script>
+<script src="{% static 'js/unslider.js' %}" type="text/javascript"></script>
+<script src="{% static 'js/plugins/jquery.scrollLoading.js' %}"  type="text/javascript"></script>
+<script src="{% static 'js/validateDialog.js' %}"  type="text/javascript"></script>
+<script src="{% static 'js/plugins/layer/layer.js' %}"></script>
+<script src="{% static 'js/deco-common.js' %}"  type="text/javascript"></script>
+<script src="{% static 'js/plugins/jquery.raty.js' %}" type="text/javascript"></script>
 <script type="text/javascript">
         function add_fav(current_elem, fav_id, fav_type, url, csrf_token) {
             $.ajax({
@@ -129,5 +137,6 @@
             });
         }
 </script>
+{% block custom_js %}{% endblock %}
 </body>
 </html>

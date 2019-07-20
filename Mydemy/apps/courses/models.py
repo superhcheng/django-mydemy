@@ -21,6 +21,7 @@ class Course(models.Model):
     image = models.ImageField(upload_to='image/courses/course/%Y/%m', default='image/courses/course/default.png', max_length=200, verbose_name='Course Image')
     course_notes = models.CharField(max_length=500, default="", verbose_name='Course Notes')
     course_objectives = models.CharField(max_length=500, default="", verbose_name='Course Objectives')
+    on_sale = models.BooleanField(default=False, verbose_name='On Sale')
     create_time = models.DateTimeField(default=datetime.now, verbose_name='Course Created Time')
 
     class Meta:

@@ -1,14 +1,16 @@
 import json
 
 from django.shortcuts import render
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.backends import ModelBackend
 from django.db.models import Q
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.core.urlresolvers import reverse
 from django.views.generic.base import View
 from pure_pagination import Paginator, PageNotAnInteger
 from Mydemy.settings import PAGINATION_SETTINGS
+from django.shortcuts import render_to_response
 
 from .models import UserProfile, UserProfileVerification
 from courses.models import Course
@@ -29,6 +31,18 @@ class CustomAuthBackend(ModelBackend):
             return None
 
 
+class HomeView(View):
+    def get(self, request):
+        on_sale_courses = Course.objects.filter(on_sale=True)[:3]
+        courses = Course.objects.filter(on_sale=False)[:6]
+        orgs = CourseOrg.objects.all()[:15]
+        return render(request, 'index.html', {
+            'on_sale_courses': on_sale_courses,
+            'courses': courses,
+            'orgs': orgs,
+        })
+
+
 class LoginView(View):
     def get(self, request):
         return render(request, 'login.html',{})
@@ -41,11 +55,18 @@ class LoginView(View):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return render(request, 'index.html')
+                return HttpResponseRedirect(reverse('home'))
             else:
                 return render(request, 'login.html', {'msg': 'Wrong Username or Password'})
         else:
             return render(request, 'login.html', {'login_form': login_form})
+
+
+class LogOutView(View):
+    def get(self, request):
+        logout(request)
+        print 'user logout'
+        return HttpResponseRedirect(reverse('home'))
 
 
 class RegisterView(View):
@@ -265,3 +286,15 @@ class UserNotificationView(LoginMixInView, View):
             'user_notifications': user_notifications_ret,
             'user_notification_type': type
         })
+
+
+def handler404(request, *args, **argv):
+    response = render_to_response('404.html')
+    response.status_code = 404
+    return response
+
+
+def handler500(request, *args, **argv):
+    response = render_to_response('500.html')
+    response.status_code = 500
+    return response

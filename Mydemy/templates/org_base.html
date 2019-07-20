@@ -10,8 +10,6 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'css/animate.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
     {% block custom_css %}{% endblock %}
-    <script src="{% static 'js/jquery.min.js' %}" type="text/javascript"></script>
-    <script src="{% static 'js/jquery-migrate-1.2.1.min.js' %}" type="text/javascript"></script>
 </head>
 <body>
 <section class="headerwrap headerwrap2">
@@ -36,11 +34,11 @@
                             </dl>
                             <div class="btn">
                                 <a class="personcenter fl" href="user_info.html">User Profile</a>
-                                <a class="fr" href="/user/logout/">Logout</a>
+                                <a class="fr" href="{% url 'logout' %}">Logout</a>
                             </div>
                         </div>
                     </div>
-                    <a href="user_notification.html">
+                    <a href="{% url 'user:user_notification' %}">
                         <div class="msg-num">{{ user.get_notification_count }}</div>
                     </a>
                 </div>
@@ -97,8 +95,10 @@
     </ul>
 </section><!--sidebar end-->
 </div><!--header start-->
+<script src="{% static 'js/jquery.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'js/jquery-migrate-1.2.1.min.js' %}" type="text/javascript"></script>
 <script src="{% static 'js/selectUi.js' %}" type='text/javascript'></script>
-<script type="text/javascript" src="{% static 'js/plugins/laydate/laydate.js' %}"></script>
+<script src="{% static 'js/plugins/laydate/laydate.js' %}" type="text/javascript" ></script>
 <script src="{% static 'js/plugins/layer/layer.js' %}"></script>
 <script src="{% static 'js/plugins/queryCity/js/public.js' %}" type="text/javascript"></script>
 <script src="{% static 'js/unslider.js' %}" type="text/javascript"></script>
