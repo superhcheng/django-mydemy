@@ -44,8 +44,8 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="user_message.html">
-                            <div class="msg-num">20</div>
+                        <a href="user_notification.html">
+                            <div class="msg-num">{{ user.get_notification_count }}</div>
                         </a>
                     {% else %}
                         <a style="color:white" class="fr registerbtn" href="{% url 'register' %}">Register</a>
@@ -80,11 +80,9 @@
 	<div class="left">
         <ul>
             <li class="active2"><a href="{% url 'user:info' %}">Information</a></li>
-            <li ><a href="{% url 'home' %}">My Courses</a></li>
+            <li ><a href="{% url 'user:user_course' %}">My Courses</a></li>
             <li ><a href="{% url 'user:fav_org' %}">My Favs</a></li>
-            <li>
-                <a href="{% url 'home' %}" style="position: relative;">Notifications</a>
-            </li>
+            <li><a href="{% url 'user:user_notification' %}" style="position: relative;">Notifications</a></li>
         </ul>
 	</div>
     {% block right_content %}{% endblock %}
@@ -131,7 +129,5 @@
             });
         }
 </script>
-
-
 </body>
 </html>

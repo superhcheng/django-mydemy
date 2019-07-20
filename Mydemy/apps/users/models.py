@@ -6,7 +6,6 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
-
 class UserProfile(AbstractUser):
     nickname = models.CharField(max_length=30, verbose_name='Nick Name')
     birthday = models.DateField(verbose_name='Birthday', null=True, blank=True)
@@ -19,6 +18,9 @@ class UserProfile(AbstractUser):
         verbose_name = 'User Information'
         verbose_name_plural = verbose_name
 
+    def get_notification_count(self):
+        from operations.models import UserMessage
+        return UserMessage.objects.filter(user=self).count()
 
 class UserProfileVerification(models.Model):
     code = models.CharField(max_length=50, verbose_name='User Profile Verification Code')

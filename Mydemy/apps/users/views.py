@@ -7,11 +7,13 @@ from django.contrib.auth.backends import ModelBackend
 from django.db.models import Q
 from django.http import HttpResponse
 from django.views.generic.base import View
+from pure_pagination import Paginator, PageNotAnInteger
+from Mydemy.settings import PAGINATION_SETTINGS
 
 from .models import UserProfile, UserProfileVerification
 from courses.models import Course
 from organizations.models import CourseOrg, Instructor
-from operations.models import UserFavorite
+from operations.models import UserFavorite, UserCourse, UserMessage
 from .forms import LoginForm, RegisterForm, ForgetPwdForm, ResetPwdForm, UpdateAvatarForm, EmailForm, UpdateEmailForm, UpdateUserProfileForm
 from utils.email_util import do_send_email
 from utils.mixin_util import LoginMixInView
@@ -234,4 +236,32 @@ class UserFavOrgView(LoginMixInView, View):
         org_ids = [org.fav_id for org in user_fav_orgs ]
         return render(request, 'user_fav_org.html', {
             'orgs': CourseOrg.objects.filter(id__in=org_ids)
+        })
+
+
+class UserCourseView(LoginMixInView, View):
+    def get(self, request):
+        user_courses = UserCourse.objects.filter(user=request.user)
+        course_ids = [user_course.course.id for user_course in user_courses]
+        return render(request, 'user_course.html', {
+            'courses': Course.objects.filter(id__in=course_ids),
+        })
+
+
+class UserNotificationView(LoginMixInView, View):
+    def get(self, request):
+        type = request.GET.get('type', 'U')
+        user_notifications = UserMessage.objects.filter(user=request.user, type=type)
+
+        try:
+            page = request.GET.get('page', 1)
+        except PageNotAnInteger:
+            page = 1
+
+        p = Paginator(user_notifications, PAGINATION_SETTINGS['PAGE_RANGE_DISPLAYED'], request=request)
+        user_notifications_ret = p.page(page)
+
+        return render(request, 'user_notification.html', {
+            'user_notifications': user_notifications_ret,
+            'user_notification_type': type
         })

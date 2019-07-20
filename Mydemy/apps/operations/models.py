@@ -43,6 +43,7 @@ class UserFavorite(models.Model):
 
 class UserMessage(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, verbose_name='User')
+    type = models.CharField(max_length=2, default='U', choices=(('U', 'User'), ('S', 'System')), verbose_name='Notification Type')
     message = models.CharField(max_length=1500, verbose_name='Message')
     has_read = models.BooleanField(default=False, verbose_name='Has Read')
     create_time = models.DateTimeField(default=datetime.now, verbose_name='Message Created Time')

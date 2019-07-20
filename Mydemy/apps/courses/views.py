@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views.generic import View
 from pure_pagination import Paginator, PageNotAnInteger
 from django.http import HttpResponse
+from django.db.models import Q
 
 from Mydemy.settings import PAGINATION_SETTINGS
 from utils.mixin_util import LoginMixInView
@@ -13,7 +14,13 @@ class CourseListView(View):
 
     def get(self, request):
         order_by = request.GET.get('order_by', '')
-        courses = Course.objects.all()
+        keywords = request.GET.get('keywords', '')
+
+        if keywords == '':
+            courses = Course.objects.all()
+        else:
+            courses = Course.objects.filter(Q(name__icontains=keywords) | Q(desc__icontains=keywords))
+
         top_courses = courses.order_by('-click_count')[:3]
         if order_by:
             if order_by == 'fav':

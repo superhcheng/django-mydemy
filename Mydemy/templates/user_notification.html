@@ -1,0 +1,189 @@
+{% extends 'user_base.html' %}
+
+{% load staticfiles %}
+
+{% block title %} Favorite Courses - {{ request.user.nickname }}{% endblock %}
+
+{% block crumbs %}
+	<div class="wp">
+		<ul  class="crumbs">
+			<li><a href="/">Main</a>></li>
+            <li><a href="/">User</a>></li>
+            <li>Notifications</li>
+		</ul>
+	</div>
+{% endblock crumbs %}
+
+{% block right_content %}
+    <div class="right" >
+		<div class="personal_des Releasecont">
+			<div class="head">
+				<h1>Notifications</h1>
+			</div>
+		</div>
+		<div class="personal_des permessage">
+			<div class="head">
+				<ul class="tab_header messagehead">
+					<li {% if user_notification_type == 'U' %} class="active" {% endif %}><a href="?type=U">User</a> </li>
+					<li {% if user_notification_type == 'S' %} class="active" {% endif %}><a href="?type=S">System</a></li>
+				</ul>
+				<ul class="fr option">
+					<li><label><input class="selectall" type="checkbox"/> All</label></li>
+					<li class="delete jsDeleteMsg"></li>
+				</ul>
+			</div>
+			<div class="messagelist">
+                {% for notification in user_notifications.object_list %}
+                    <div class="messages">
+                        <label class="fl">
+                            <input name="my_message_id" class="checkbox" type="checkbox" data-value="199"/>
+                        </label>
+                        <div class="fr">
+                            <div class="top"><span class="fl time">{{ notification.create_time }}</span><span class="fr btn foldbtn"></span></div>
+                            <p>{{ notification.message }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+			</div>
+            <ul class="option fl">
+                <li><label><input class="selectall" type="checkbox"/>All</label></li>
+                <li class="delete jsDeleteMsg"></li>
+            </ul>
+
+			<div class="pageturn pagerright">
+                <ul class="pagelist">
+                    {% if user_notifications.has_previous %}
+                        <li class="long">
+                            <a href="?{{ user_notifications.previous_page_number.querystring }}">Prev</a>
+                        </li>
+                    {% endif %}
+                    {% for page in user_notifications.pages %}
+                        {% if page %}
+                            {% ifequal page user_notifications.number %}
+                                <li class="active"><a>{{ page }}</a></li>
+                            {% else %}
+                                <li class="page">
+                                    <a href="?{{ page.querystring }}">{{ page }}</a>
+                                </li>
+                            {% endifequal %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if user_notifications.has_next %}
+                        <li class="long">
+                            <a href="?{{ user_notifications.next_page_number.querystring }}">Next</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block custom_js %}
+{% endblock %}
+
+<script type="text/javascript">
+	$(function(){
+		$('.selectall').click(function(){
+			$('.checkbox').prop('checked',this.checked);
+		});
+
+        $('.jsDeleteMsg').on('click',function(){
+            var myMessageIdList = [],
+                $checkBoxs = $('input[name=my_message_id]:checked');
+            if($checkBoxs.length <1 ){
+                Dml.fun.showTipsDialog({
+                      title:'提示',
+                      h2: '请勾选要删除的消息！',
+                      type: 'failbox'
+                });
+            }
+            $checkBoxs.each(function(){
+                var val = $(this).attr('data-value');
+                myMessageIdList.push(val);
+            });
+
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url:'/user/message/delete/',
+                data:JSON.stringify({id_list:myMessageIdList}),
+                async: true,
+                beforeSend:function(xhr, settings){
+                    xhr.setRequestHeader("X-CSRFToken", "sJcSi17mvC0dE06Qj4LH2i17uic2JOgy");
+                },
+                success: function(data) {
+                    Dml.fun.showTipsDialog({
+                        title:'提示',
+                        h2: '消息删除成功！',
+                        type: 'failbox'
+                    });
+                    Dml.fun.winReload();
+                }
+            });
+
+        });
+
+	});
+</script>
+<script>
+        var shareUrl = '',
+            shareText = '',
+            shareDesc = '',
+            shareComment = '';
+        $(function () {
+            $(".bdsharebuttonbox a").mouseover(function () {
+                var type = $(this).attr('data-cmd'),
+                    $parent = $(this).parent('.bdsharebuttonbox'),
+                    fxurl = $parent.attr('data-url'),
+                    fxtext = $parent.attr('data-text'),
+                    fxdesc = $parent.attr('data-desc'),
+                    fxcomment = $parent.attr('data-comment');
+                switch (type){
+                    case 'tsina':
+                    case 'tqq':
+                    case 'renren':
+                            shareUrl = fxurl;
+                            shareText = fxdesc;
+                            shareDesc = '';
+                            shareComment = '';
+                        break;
+                    default :
+                            shareUrl = fxurl;
+                            shareText = fxtext;
+                            shareDesc = fxdesc;
+                            shareComment = fxcomment;
+                        break;
+                }
+            });
+        });
+        function SetShareUrl(cmd, config) {
+            if (shareUrl) {
+                config.bdUrl = "http://www.domile.com.cn" + shareUrl;
+            }
+            if(shareText){
+                config.bdText = shareText;
+            }
+            if(shareDesc){
+                config.bdDesc = shareDesc;
+            }
+            if(shareComment){
+                config.bdComment = shareComment;
+            }
+
+            return config;
+        }
+        window._bd_share_config = {
+            "common": {
+                "onBeforeClick":SetShareUrl,
+                "bdPic":"http://www.domile.com.cn../images/logo2.png",
+                "bdMini":"2",
+                "searchPic":"1",
+                "bdMiniList":false
+            },
+            "share": {
+                "bdSize":"16"
+            }
+        };
+    with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>

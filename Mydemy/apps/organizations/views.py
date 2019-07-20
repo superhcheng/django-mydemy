@@ -3,6 +3,7 @@ from django.views.generic import View
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from pure_pagination import Paginator, PageNotAnInteger
+from django.db.models import Q
 
 from Mydemy.settings import PAGINATION_SETTINGS
 from .models import City, CourseOrg, Instructor
@@ -12,10 +13,15 @@ from courses.models import Course
 
 
 class OrgView(View):
-
     def get(self, request):
         all_cities = City.objects.all()
-        all_orgs = CourseOrg.objects.all()
+        keywords = request.GET.get('keywords', '')
+
+        if keywords == '':
+            all_orgs = CourseOrg.objects.all()
+        else:
+            all_orgs = CourseOrg.objects.filter(Q(name__icontains=keywords) | Q(desc__icontains=keywords))
+
         top_orgs = all_orgs.order_by('-click_count')[:5]
         city_filter = request.GET.get('city_filter', '')
         provider_type = request.GET.get('provider_type', '')
@@ -52,7 +58,6 @@ class OrgView(View):
 
 
 class UserRequestView(View):
-
     def post(self, request):
         user_request_form = UserRequestForm(request.POST)
         if user_request_form.is_valid():
@@ -66,7 +71,6 @@ class UserRequestView(View):
 
 
 class OrgOverviewView(View):
-
     def get(self, request, org_id):
         org = CourseOrg.objects.get(id=org_id)
         org_courses = org.course_set.all()[:3]
@@ -83,7 +87,6 @@ class OrgOverviewView(View):
 
 
 class OrgInfoView(View):
-
     def get(self, request, org_id):
         org = CourseOrg.objects.get(id=org_id)
         if org:
@@ -96,7 +99,6 @@ class OrgInfoView(View):
 
 
 class OrgInstructorView(View):
-
     def get(self, request, org_id):
         org = CourseOrg.objects.get(id=org_id)
         org_instructors = org.instructor_set.all()
@@ -111,7 +113,6 @@ class OrgInstructorView(View):
 
 
 class OrgCourseView(View):
-
     def get(self, request, org_id):
         org = CourseOrg.objects.get(id=org_id)
         org_courses = org.course_set.all()
@@ -126,7 +127,6 @@ class OrgCourseView(View):
 
 
 class OrgFavView(View):
-
     def post(self, request):
         if request.user.is_authenticated():
             fav_id = int(request.POST.get('fav_id', 0))
@@ -149,8 +149,13 @@ class OrgFavView(View):
 
 class InstructorListView(View):
     def get(self, request):
-        instructors = Instructor.objects.all()
+        keywords = request.GET.get('keywords', '')
         order_by = request.GET.get('order_by', '')
+
+        if keywords == '':
+            instructors = Instructor.objects.all()
+        else:
+            instructors = Instructor.objects.filter(Q(name__icontains=keywords) | Q(specialty__icontains=keywords))
 
         if order_by == 'fav':
             instructors = instructors.order_by('-click_count')

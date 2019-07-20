@@ -39,8 +39,8 @@
                             </div>
                         </div>
                     </div>
-                    <a href="user_message.html">
-                        <div class="msg-num">20</div>
+                    <a href="user_notification.html">
+                        <div class="msg-num">{{ user.get_notification_count }}</div>
                     </a>
                 </div>
             </div>
@@ -60,14 +60,14 @@
 					<a href="/"><img class="fl" src="/static/images/logo.jpg"/></a>
 					<div class="searchbox fr">
 						<div class="selectContainer fl">
-                            <span class="selectOption" id="jsSelectOption" data-value="group">Courses</span>
+                            <span class="selectOption" id="jsSelectOption" data-value="course">Courses</span>
                             <ul class="selectMenu" id="jsSelectMenu">
-                                <li data-value="group">Courses</li>
-                                <li data-value="company">Organizations</li>
-                                <li data-value="hk">Instructors</li>
+                                <li data-value="course">Courses</li>
+                                <li data-value="org">Organizations</li>
+                                <li data-value="ins">Instructors</li>
                             </ul>
 						</div>
-						<input id="search_keywords" class="fl" type="text" value="" placeholder="请输入搜索内容"/>
+						<input id="search_keywords" class="fl" type="text" value="" placeholder="Enter search keywords"/>
 						<img class="search_btn fr" id="jsSearchBtn" src="/static/images/search_btn.png"/>
 					</div>
 				</div>
