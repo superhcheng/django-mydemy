@@ -17,7 +17,7 @@ from django.conf.urls import url, include
 from django.views.static import serve
 import xadmin
 
-from Mydemy.settings import MEDIA_ROOT, STATIC_ROOT
+from Mydemy.settings import MEDIA_ROOT
 from users.views import LoginView, RegisterView, ActivateView, ForgetPwdView, ResetPwdView,\
     DoResetPwdView, LogOutView, HomeView
 
@@ -37,7 +37,7 @@ urlpatterns = [
     url(r'^course/', include('courses.urls', namespace='course')),
     url(r'^user/', include('users.urls', namespace='user')),
     url(r'^media/(?P<path>.*)/$', serve, {'document_root': MEDIA_ROOT}),
-    url(r'^static/(?P<path>.*)/$', serve, {'document_root': STATIC_ROOT}),
+    #url(r'^static/(?P<path>.*)/$', serve, {'document_root': STATIC_ROOT}),
 ]
 
 handler404 = 'users.views.handler404'

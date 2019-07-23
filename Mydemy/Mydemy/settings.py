@@ -27,7 +27,7 @@ sys.path.insert(1, os.path.join(BASE_DIR, 'plugins'))
 SECRET_KEY = '$8%dy78s^)fjd#(l0ol%@_wvr$tjr)tr_p1qb#4lz$krrus68n'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -149,7 +149,7 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

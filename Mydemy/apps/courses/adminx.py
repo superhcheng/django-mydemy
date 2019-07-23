@@ -1,13 +1,31 @@
 # -*- coding: utf-8 -*-
 import xadmin
 
-from .models import Course, Lesson, Video, Resource
+from .models import Course, Lesson, Video, Resource, CourseOnSale
 
 
 class CourseAdmin(object):
     search_fields = ['name', 'desc', 'difficulty']
     list_display = ['name', 'desc', 'difficulty', 'course_duration']
     list_filter = ['name', 'desc', 'difficulty','student_count', 'fav_count', 'click_count', 'create_time']
+    ordering = ['-create_time']
+    readonly_fields = ['click_count']
+    exclude = ['fav_count']
+
+    def queryset(self):
+        return super(CourseAdmin, self).queryset().filter(on_sale=False)
+
+
+class CourseOnSaleAdmin(object):
+    search_fields = ['name', 'desc', 'difficulty']
+    list_display = ['name', 'desc', 'difficulty', 'course_duration']
+    list_filter = ['name', 'desc', 'difficulty','student_count', 'fav_count', 'click_count', 'create_time']
+    ordering = ['-create_time']
+    readonly_fields = ['click_count']
+    exclude = ['fav_count']
+
+    def queryset(self):
+        return super(CourseOnSaleAdmin, self).queryset().filter(on_sale=True)
 
 class LessonAdmin(object):
     search_fields = ['course', 'name']
@@ -28,6 +46,7 @@ class ResourceAdmin(object):
 
 
 xadmin.site.register(Course, CourseAdmin)
+xadmin.site.register(CourseOnSale, CourseOnSaleAdmin)
 xadmin.site.register(Lesson, LessonAdmin)
 xadmin.site.register(Video, VideoAdmin)
 xadmin.site.register(Resource, ResourceAdmin)

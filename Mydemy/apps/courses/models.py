@@ -38,6 +38,13 @@ class Course(models.Model):
         return self.usercourse_set.all()[:5]
 
 
+class CourseOnSale(Course):
+    class Meta:
+        verbose_name = 'On-sale Course'
+        verbose_name_plural = 'On-sale Courses'
+        proxy = True
+
+
 class Lesson(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='Course Name')
     name = models.CharField(max_length=50, verbose_name='Lesson Name')
