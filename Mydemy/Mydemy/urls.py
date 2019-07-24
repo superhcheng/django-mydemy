@@ -38,6 +38,7 @@ urlpatterns = [
     url(r'^user/', include('users.urls', namespace='user')),
     url(r'^media/(?P<path>.*)/$', serve, {'document_root': MEDIA_ROOT}),
     #url(r'^static/(?P<path>.*)/$', serve, {'document_root': STATIC_ROOT}),
+    url(r'^ueditor/',include('DjangoUeditor.urls')),
 ]
 
 handler404 = 'users.views.handler404'

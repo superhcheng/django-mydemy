@@ -11,6 +11,7 @@ class CourseAdmin(object):
     ordering = ['-create_time']
     readonly_fields = ['click_count']
     exclude = ['fav_count']
+    style_fields = {"detail": "ueditor"}
 
     def queryset(self):
         return super(CourseAdmin, self).queryset().filter(on_sale=False)

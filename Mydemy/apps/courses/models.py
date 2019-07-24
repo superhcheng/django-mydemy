@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 from datetime import datetime
 
 from django.db import models
+from DjangoUeditor.models import UEditorField
 
 from organizations.models import CourseOrg, Instructor
 
@@ -11,7 +12,9 @@ class Course(models.Model):
     org = models.ForeignKey(CourseOrg, on_delete=models.CASCADE, null=True, verbose_name='Organization')
     instructor = models.ForeignKey(Instructor, on_delete=models.CASCADE, null=True, blank=True, verbose_name='Instructor')
     desc = models.CharField(max_length=500, verbose_name='Course Description')
-    detail = models.CharField(max_length=100, verbose_name='Course Detail')
+    #detail = UEditorField('Course Detail', width=600, height=300, toolbars="full",imagePath="image/courses/course/ueditor/", filePath="image/courses/course/ueditor/",upload_settings={"imageMaxSize": 1204000}, command=None, blank=True)
+    detail = UEditorField(verbose_name="Course Detail", width=600, height=300, upload_settings={"imageMaxSize": 1204000}, command=None,
+                          imagePath="image/courses/course/ueditor/",filePath="image/courses/course/ueditor/",default="")
     category = models.CharField(max_length=100, default='', verbose_name='Course Category')
     difficulty = models.CharField(max_length=10, choices=(('easy','Easy'), ('medium', 'Medium'),('hard', 'Hard')), verbose_name='Course Difficulty')
     course_duration = models.IntegerField(default=0, verbose_name='Course Duration')
