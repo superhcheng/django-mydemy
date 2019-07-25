@@ -12,9 +12,15 @@ class CourseAdmin(object):
     readonly_fields = ['click_count']
     exclude = ['fav_count']
     style_fields = {"detail": "ueditor"}
+    import_excel = True
 
     def queryset(self):
         return super(CourseAdmin, self).queryset().filter(on_sale=False)
+
+    def post(self, request, *args, **kwargs):
+        if 'excel' in request.FILES:
+            print request.FILES
+        return super(CourseAdmin, self).post(request, args, kwargs)
 
 
 class CourseOnSaleAdmin(object):
