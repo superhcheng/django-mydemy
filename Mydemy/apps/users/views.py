@@ -6,7 +6,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.backends import ModelBackend
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.views.generic.base import View
 from pure_pagination import Paginator, PageNotAnInteger
 from Mydemy.settings import PAGINATION_SETTINGS
@@ -65,7 +65,6 @@ class LoginView(View):
 class LogOutView(View):
     def get(self, request):
         logout(request)
-        print 'user logout'
         return HttpResponseRedirect(reverse('home'))
 
 

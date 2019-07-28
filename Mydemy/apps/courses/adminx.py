@@ -19,8 +19,7 @@ class CourseAdmin(object):
 
     def post(self, request, *args, **kwargs):
         if 'excel' in request.FILES:
-            print request.FILES
-        return super(CourseAdmin, self).post(request, args, kwargs)
+            return super(CourseAdmin, self).post(request, args, kwargs)
 
 
 class CourseOnSaleAdmin(object):

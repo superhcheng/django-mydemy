@@ -128,7 +128,7 @@ class OrgCourseView(View):
 
 class OrgFavView(View):
     def post(self, request):
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             fav_id = int(request.POST.get('fav_id', 0))
             fav_type = int(request.POST.get('fav_type', 0))
 
@@ -165,7 +165,7 @@ class InstructorListView(View):
         except PageNotAnInteger:
             page = 1
 
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             for ins in instructors:
                 if UserFavorite.objects.filter(user=request.user, fav_id=ins.id, fav_type=1):
                     ins.is_fav = True
@@ -188,7 +188,7 @@ class InstructorInfoView(View):
         ins_fav = False
         org_fav = False
 
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             if UserFavorite.objects.filter(user=request.user, fav_id=int(ins_id), fav_type=1):
                 ins_fav = True
             if UserFavorite.objects.filter(user=request.user, fav_id=instructor.org.id, fav_type=3):
@@ -205,7 +205,7 @@ class InstructorInfoView(View):
 
 
 def getFavState(request, fav_id):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         if UserFavorite.objects.filter(user=request.user, fav_id=fav_id, fav_type=3):
             return 'Un-favorite'
         else:

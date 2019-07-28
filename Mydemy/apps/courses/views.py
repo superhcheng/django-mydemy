@@ -56,7 +56,7 @@ class CourseOverviewView(View):
         fav_course = False
         fav_org = False
 
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             user_favs = UserFavorite.objects.filter(user=request.user)
             if user_favs:
                 if user_favs.filter(fav_id=course.id, fav_type=2):
@@ -117,7 +117,7 @@ class CourseCommentsView(LoginMixInView, View):
 
 class CourseAddCommentView(View):
     def post(self, request):
-        if not request.user.is_authenticated():
+        if not request.user.is_authenticated:
             return HttpResponse('{"status": "fail", "err_msg": "Login Required"}', content_type='application/json')
         else:
             course_id = int(request.POST.get('course_id', 0))
@@ -140,7 +140,6 @@ class VideoPlayView(LoginMixInView, View):
         video = Video.objects.get(id=int(video_id))
         res_list = Resource.objects.filter(course=video.lesson.course)
         lessons = Lesson.objects.filter(course=video.lesson.course)
-        print lessons
         return render(request, 'course_video_play.html', {
             'lessons': lessons,
             'video': video,
@@ -148,6 +147,7 @@ class VideoPlayView(LoginMixInView, View):
             'instructor': video.lesson.course.instructor,
             'res_list': res_list
         })
+
 
 def get_related_courses(course):
     user_courses = UserCourse.objects.filter(course=course)

@@ -33,12 +33,12 @@ urlpatterns = [
     url(r'^forgetpwd/$', ForgetPwdView.as_view(), name='forget_pwd'),
     url(r'^resetpwd/(?P<verification_code>.*)/$', ResetPwdView.as_view(), name="reset_pwd"),
     url(r'^do_resetpwd/$', DoResetPwdView.as_view(), name='do_reset_pwd'),
-    url(r'^org/', include('organizations.urls', namespace='org')),
-    url(r'^course/', include('courses.urls', namespace='course')),
-    url(r'^user/', include('users.urls', namespace='user')),
+    url(r'^org/', include(('organizations.urls', 'organizations'), namespace='org')),
+    url(r'^course/', include(('courses.urls', 'courses'), namespace='course')),
+    url(r'^user/', include(('users.urls', 'users'), namespace='user')),
     url(r'^media/(?P<path>.*)/$', serve, {'document_root': MEDIA_ROOT}),
     #url(r'^static/(?P<path>.*)/$', serve, {'document_root': STATIC_ROOT}),
-    url(r'^ueditor/',include('DjangoUeditor.urls')),
+    url(r'^ueditor/',include(('DjangoUeditor.urls', 'ueditor'), namespace='ueditor')),
 ]
 
 handler404 = 'users.views.handler404'

@@ -27,7 +27,7 @@ def do_send_email(email, send_type='register'):
         email_subject = 'New E-mail Verification'
         email_body = 'Here your verification code {0}'.format(verification_code)
     else:
-        print 'Exception Invalid Send Type... ' + send_type
+        print('Exception Invalid Send Type... ' + send_type)
 
     email_status = send_mail(email_subject, email_body, EMAIL_HOST_USER, [email])
 

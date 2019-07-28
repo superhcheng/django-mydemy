@@ -31,7 +31,7 @@ class Course(models.Model):
         verbose_name = 'Course'
         verbose_name_plural = 'Courses'
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def getAllLessons(self):
@@ -57,7 +57,7 @@ class Lesson(models.Model):
         verbose_name = 'Lesson'
         verbose_name_plural = 'Lessons'
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def get_all_videos(self):
@@ -76,7 +76,7 @@ class Video(models.Model):
         verbose_name = 'Video'
         verbose_name_plural = 'Videos'
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -90,5 +90,5 @@ class Resource(models.Model):
         verbose_name = 'Resource'
         verbose_name_plural = 'Resources'
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name

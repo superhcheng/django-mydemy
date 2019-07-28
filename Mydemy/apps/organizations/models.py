@@ -15,7 +15,7 @@ class City(models.Model):
         verbose_name = 'City'
         verbose_name_plural = 'Cities'
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -37,7 +37,7 @@ class CourseOrg(models.Model):
         verbose_name_plural = 'Organizations'
 
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def getAllInstructors(self):
@@ -64,5 +64,5 @@ class Instructor(models.Model):
         from courses.models import Course
         return Course.objects.filter(instructor=self).count()
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name

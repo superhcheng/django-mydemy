@@ -32,4 +32,3 @@ class UeditorPlugin(BaseAdminPlugin):
 
 xadmin.site.register_plugin(UeditorPlugin, UpdateAdminView)
 xadmin.site.register_plugin(UeditorPlugin, CreateAdminView)
-
